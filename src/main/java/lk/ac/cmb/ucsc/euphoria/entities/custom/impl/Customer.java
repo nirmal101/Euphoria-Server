@@ -10,27 +10,6 @@ import javax.persistence.SequenceGenerator;
 @SequenceGenerator(name = "CUSTOMER_SEQ",allocationSize = 1)
 public class Customer extends Person {
 
-    @Column
-    private String registeredAt;
-
-    @Column
-    private String registration;
-
-    public String getRegisteredAt() {
-        return registeredAt;
-    }
-
-    public void setRegisteredAt(String registeredAt) {
-        this.registeredAt = registeredAt;
-    }
-
-    public String getRegistration() {
-        return registration;
-    }
-
-    public void setRegistration(String registration) {
-        this.registration = registration;
-    }
 }
 
 

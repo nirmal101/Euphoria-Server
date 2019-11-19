@@ -2,13 +2,17 @@ package lk.ac.cmb.ucsc.euphoria.entities.custom.impl;
 
 import lk.ac.cmb.ucsc.euphoria.entities.custom.Person;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.SequenceGenerator;
+import javax.persistence.*;
 
 @Entity
 @SequenceGenerator(name = "COUNSELOR_SEQ",allocationSize = 1)
 public class Counselor extends Person {
+
+    @ManyToOne
+    private Customer customer;
+
+    @ManyToOne
+    private Counselor counselor;
 
     @Column
     private String registeredAt;

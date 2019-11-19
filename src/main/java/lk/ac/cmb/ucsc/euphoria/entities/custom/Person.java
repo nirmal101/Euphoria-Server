@@ -8,18 +8,39 @@ import javax.persistence.MappedSuperclass;
 @MappedSuperclass
 public abstract class Person extends BaseEntity {
 
-    @Column
+    @Column(nullable = false)
     protected String firstName;
 
-    @Column
+    @Column(nullable = false)
     protected String lastName;
 
-    @Column
+    @Column(unique = true,nullable = false)
     protected String email;
 
     @Column
     protected String contactNumber;
 
+    @Column(unique = true, nullable = false)
+    protected String username;
+
+    @Column(nullable = false)
+    protected String password;
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     public String getFirstName() {
         return firstName;
