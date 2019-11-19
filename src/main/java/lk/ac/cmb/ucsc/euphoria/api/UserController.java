@@ -24,6 +24,15 @@ public class UserController {
         this.userService = userService;
     }
 
+    @PostMapping(path = "/counselorrequest", consumes = "application/json", produces = "application/json")
+    @CrossOrigin
+    public void addRequest(@RequestBody @Valid @NonNull Request request) {
+
+        System.out.println("came to the server");
+        System.out.println(request.getUser_id());
+
+    }
+
     @PostMapping(path = "/newpost", consumes = "application/json", produces = "application/json")
     @CrossOrigin
     public void addPost(@RequestBody @Valid @NonNull Post post) {
@@ -32,17 +41,7 @@ public class UserController {
         System.out.println(post.getFeelings());
         userService.addPost(post);
     }
-    @PostMapping(path = "/counselorrequest", consumes = "application/json", produces = "application/json")
-    @CrossOrigin
-    public void addPost(@RequestBody @Valid @NonNull Request request) {
 
-        System.out.println("came to the server");
-        try{
-            userService.addRequest(request);
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-    }
     @PostMapping(path = "/signin", consumes = "application/json", produces = "application/json")
     @CrossOrigin
     public ResponseEntity<Boolean> signIn(@RequestBody @Valid @NonNull Password password) {
