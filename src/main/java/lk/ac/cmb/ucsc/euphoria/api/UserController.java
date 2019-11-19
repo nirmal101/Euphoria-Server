@@ -13,6 +13,7 @@ import javax.validation.Valid;
 
 @RequestMapping("api/user")
 @RestController
+@CrossOrigin(origins = "http://localhost:8080",allowedHeaders = "*")
 public class UserController {
 
     @Autowired
@@ -24,27 +25,25 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping(path = "/newpost", consumes = "application/json", produces = "application/json")
+    @CrossOrigin(origins = "http://localhost:8080",allowedHeaders = "*")
+    @PostMapping(path = "/counselorrequest", consumes = "application/json", produces = "application/json")
+    public void addRequest(@RequestBody @Valid @NonNull Request request) {
+
+        System.out.println("came to the server");
+
+    }
+
     @CrossOrigin
+    @PostMapping(path = "/newpost", consumes = "application/json", produces = "application/json")
     public void addPost(@RequestBody @Valid @NonNull Post post) {
 
         System.out.println("came to the server");
         System.out.println(post.getFeelings());
         userService.addPost(post);
     }
-    @PostMapping(path = "/counselorrequest", consumes = "application/json", produces = "application/json")
-    @CrossOrigin
-    public void addPost(@RequestBody @Valid @NonNull Request request) {
 
-        System.out.println("came to the server");
-        try{
-            userService.addRequest(request);
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-    }
-    @PostMapping(path = "/signin", consumes = "application/json", produces = "application/json")
     @CrossOrigin
+    @PostMapping(path = "/signin", consumes = "application/json", produces = "application/json")
     public ResponseEntity<Boolean> signIn(@RequestBody @Valid @NonNull Password password) {
 
         System.out.println("came to the server");
