@@ -74,13 +74,13 @@
 			<scope>test</scope>
 		</dependency>
 
-<<<<<<< HEAD
+
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>
 			<version>2.8.6</version>
 		</dependency>
-=======
+
 		<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-core -->
 		<dependency>
 			<groupId>org.hibernate</groupId>
@@ -88,7 +88,6 @@
 			<version>5.4.9.Final</version>
 		</dependency>
 
->>>>>>> 2c91b94554343660c75571b8ecf1fa0bbec6ef11
 	</dependencies>
 
 	<build>

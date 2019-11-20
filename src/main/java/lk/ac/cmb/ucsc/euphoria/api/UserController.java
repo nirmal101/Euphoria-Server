@@ -3,6 +3,7 @@ package lk.ac.cmb.ucsc.euphoria.api;
 import lk.ac.cmb.ucsc.euphoria.model.Password;
 import lk.ac.cmb.ucsc.euphoria.model.Post;
 import lk.ac.cmb.ucsc.euphoria.model.Request;
+import lk.ac.cmb.ucsc.euphoria.service.AppointmentService;
 import lk.ac.cmb.ucsc.euphoria.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,8 @@ public class UserController {
     @Autowired
     private final UserService userService;
 
+    @Autowired
+    private AppointmentService appointmentService;
 
 
     public UserController(UserService userService) {
@@ -30,7 +33,9 @@ public class UserController {
 
         System.out.println("came to the server");
         System.out.println(request.getUser_id());
-
+        System.out.println(request.getUser_name());
+        System.out.println(request.getDoctor_name());
+        appointmentService.newRequest(request);
     }
 
     @PostMapping(path = "/newpost", consumes = "application/json", produces = "application/json")
