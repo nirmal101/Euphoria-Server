@@ -1,8 +1,8 @@
 package lk.ac.cmb.ucsc.euphoria.service;
 
-import lk.ac.cmb.ucsc.euphoria.dao.PasswordDAO;
-import lk.ac.cmb.ucsc.euphoria.dao.RequestDAO;
-import lk.ac.cmb.ucsc.euphoria.dao.UserDAO;
+import lk.ac.cmb.ucsc.euphoria.repository.PasswordRepository;
+import lk.ac.cmb.ucsc.euphoria.repository.RequestRepository;
+import lk.ac.cmb.ucsc.euphoria.repository.UserRepository;
 import lk.ac.cmb.ucsc.euphoria.model.Password;
 import lk.ac.cmb.ucsc.euphoria.model.Post;
 import lk.ac.cmb.ucsc.euphoria.model.Request;
@@ -14,23 +14,23 @@ import java.util.Optional;
 @Service
 public class UserService {
     @Autowired
-    private UserDAO userDAO;
+    private UserRepository userRepository;
     @Autowired
-    private RequestDAO requestDAO;
+    private RequestRepository requestRepository;
     @Autowired
-    private PasswordDAO passwordDAO;
+    private PasswordRepository passwordRepository;
 
 
     public void addPost(Post post) {
-        userDAO.save(post);
+        userRepository.save(post);
     }
     public void addRequest(Request request){
-        requestDAO.save(request);
+        requestRepository.save(request);
     }
 
     public Boolean signIn(Password password) {
 
-        Optional<Password> existing=passwordDAO.findById(password.getEmail());
+        Optional<Password> existing= passwordRepository.findById(password.getEmail());
         if(!existing.isEmpty()){
             Password temp=existing.get();
             return(temp.getPassword().equals(password.getPassword()));

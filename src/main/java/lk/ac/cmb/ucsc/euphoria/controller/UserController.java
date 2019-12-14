@@ -1,4 +1,4 @@
-package lk.ac.cmb.ucsc.euphoria.api;
+package lk.ac.cmb.ucsc.euphoria.controller;
 
 import lk.ac.cmb.ucsc.euphoria.model.Password;
 import lk.ac.cmb.ucsc.euphoria.model.Post;
