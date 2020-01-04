@@ -1,5 +1,6 @@
 package lk.ac.cmb.ucsc.euphoria.service;
 
+import lk.ac.cmb.ucsc.euphoria.model.User;
 import lk.ac.cmb.ucsc.euphoria.repository.PasswordRepository;
 import lk.ac.cmb.ucsc.euphoria.repository.RequestRepository;
 import lk.ac.cmb.ucsc.euphoria.repository.UserRepository;
@@ -21,8 +22,8 @@ public class UserService {
     private PasswordRepository passwordRepository;
 
 
+
     public void addPost(Post post) {
-        userRepository.save(post);
     }
     public void addRequest(Request request){
         requestRepository.save(request);
@@ -34,6 +35,48 @@ public class UserService {
         if(!existing.isEmpty()){
             Password temp=existing.get();
             return(temp.getPassword().equals(password.getPassword()));
+
+        }else{
+            return false;
+        }
+    }
+
+    public boolean quickSignUp(User user) {
+        Optional<Password> existing= passwordRepository.findById(user.getEmail());
+        if(existing.isEmpty()){
+
+            Password temp=new Password(user.getEmail(),user.getPassword());
+            Password pw=passwordRepository.save(temp);
+            User us=userRepository.save(user);
+            if (pw == null & us==null) {
+                return false;
+
+            }else{
+                return true;
+            }
+
+
+
+        }else{
+            return false;
+        }
+    }
+
+    //can use this later when the user decides to  fill in the formal data
+    public boolean formalSignUp(User user) {
+        Optional<Password> existing= passwordRepository.findById(user.getEmail());
+        if(existing.isEmpty()){
+            Password temp=new Password(user.getEmail(),user.getPassword());
+            Password pw=passwordRepository.save(temp);
+            User us=userRepository.save(user);
+            if (pw == null & us==null) {
+                return false;
+
+            }else{
+                return true;
+            }
+
+
 
         }else{
             return false;

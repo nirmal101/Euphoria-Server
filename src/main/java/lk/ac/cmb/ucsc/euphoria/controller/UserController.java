@@ -3,6 +3,7 @@ package lk.ac.cmb.ucsc.euphoria.controller;
 import lk.ac.cmb.ucsc.euphoria.model.Password;
 import lk.ac.cmb.ucsc.euphoria.model.Post;
 import lk.ac.cmb.ucsc.euphoria.model.Request;
+import lk.ac.cmb.ucsc.euphoria.model.User;
 import lk.ac.cmb.ucsc.euphoria.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -68,6 +69,39 @@ public class UserController {
         try{
             return ResponseEntity.ok(value);
 
+        }catch(Exception e){
+            e.printStackTrace();
+            return ResponseEntity.ok(false);
+        }
+    }
+
+    @PostMapping(path = "/quicksignup", consumes = "application/json", produces = "application/json")
+    @CrossOrigin
+    public ResponseEntity<Boolean> quickSignUp(@RequestBody @Valid @NonNull User user) {
+
+        System.out.println("came to the server");
+        try{
+            if(userService.quickSignUp(user)){
+                return ResponseEntity.ok(true);
+            }else{
+                return ResponseEntity.ok(false);
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+            return ResponseEntity.ok(false);
+        }
+    }
+    @PostMapping(path = "/formalsignup", consumes = "application/json", produces = "application/json")
+    @CrossOrigin
+    public ResponseEntity<Boolean> formalSignUp(@RequestBody @Valid @NonNull User user) {
+
+        System.out.println("came to the server");
+        try{
+            if(userService.formalSignUp(user)){
+                return ResponseEntity.ok(true);
+            }else{
+                return ResponseEntity.ok(false);
+            }
         }catch(Exception e){
             e.printStackTrace();
             return ResponseEntity.ok(false);

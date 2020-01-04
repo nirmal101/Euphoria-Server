@@ -13,12 +13,15 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     @NotBlank
-    private final String postTitle;
+    private  String postTitle;
     @NotBlank
-    private final String postBody;
+    private  String postBody;
     @ElementCollection
-    private final Map<String,Boolean> feelings;
+    private  Map<String,Boolean> feelings;
 //    private  Feelings feelings;
+    public Post(){
+
+    }
     public Post(@JsonProperty("postTitle") String postTitle, @JsonProperty("postBody") @NotBlank String postBody,@JsonProperty("checkboxes") Map<String, Boolean> feelings) {
         this.postTitle = postTitle;
         this.postBody = postBody;
