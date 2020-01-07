@@ -27,6 +27,8 @@ public class User {
 
     private String status;//whether online or not
     private String account_type;//quick or formal
+    /******/
+    private String date;
 
     public User(
 

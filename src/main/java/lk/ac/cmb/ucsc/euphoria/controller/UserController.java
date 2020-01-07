@@ -1,9 +1,6 @@
 package lk.ac.cmb.ucsc.euphoria.controller;
 
-import lk.ac.cmb.ucsc.euphoria.model.Password;
-import lk.ac.cmb.ucsc.euphoria.model.Post;
-import lk.ac.cmb.ucsc.euphoria.model.Request;
-import lk.ac.cmb.ucsc.euphoria.model.User;
+import lk.ac.cmb.ucsc.euphoria.model.*;
 import lk.ac.cmb.ucsc.euphoria.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +8,9 @@ import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @RequestMapping("api/user")
 @RestController
@@ -34,6 +34,12 @@ public class UserController {
         System.out.println(request.getUser_name());
         System.out.println(request.getDoctor_name());
     }
+    @GetMapping(path = "/getCounselors", produces = "application/json")
+    @CrossOrigin
+    public List<Counselor> getCounselors() {
+        System.out.println("Get counselors");
+        return userService.getCounselors();
+    }
 
     @PostMapping(path = "/newpost", consumes = "application/json", produces = "application/json")
     @CrossOrigin
@@ -49,6 +55,7 @@ public class UserController {
     public ResponseEntity<Boolean> signIn(@RequestBody @Valid @NonNull Password password) {
 
         System.out.println("came to the server");
+        System.out.println(password.getEmail()+" email");
         value=true;
         try{
             if(userService.signIn(password)){
