@@ -1,5 +1,6 @@
 package lk.ac.cmb.ucsc.euphoria.controller;
 
+import lk.ac.cmb.ucsc.euphoria.dto.CounselorRequestDTO;
 import lk.ac.cmb.ucsc.euphoria.model.*;
 import lk.ac.cmb.ucsc.euphoria.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,36 +53,23 @@ public class UserController {
 
     @PostMapping(path = "/signin", consumes = "application/json", produces = "application/json")
     @CrossOrigin
-    public ResponseEntity<Boolean> signIn(@RequestBody @Valid @NonNull Password password) {
+    public List<User> signIn(@RequestBody @Valid @NonNull Password password) {
 
         System.out.println("came to the server");
         System.out.println(password.getEmail()+" email");
         value=true;
         try{
-            if(userService.signIn(password)){
-                return ResponseEntity.ok(true);
-            }else{
-                return ResponseEntity.ok(false);
-            }
+//            if(userService.signIn(password)){
+//                return ResponseEntity.ok(true);
+//            }else{
+//                return ResponseEntity.ok(false);
+//            }
+            return userService.signIn(password);
         }catch(Exception e){
             e.printStackTrace();
-            return ResponseEntity.ok(false);
+            return null;
         }
     }
-    @PostMapping(path = "/sign", consumes = "application/json", produces = "application/json")
-    @CrossOrigin
-    public ResponseEntity<Boolean> sign(@RequestBody @Valid @NonNull Password password) {
-
-        System.out.println("came to the server");
-        try{
-            return ResponseEntity.ok(value);
-
-        }catch(Exception e){
-            e.printStackTrace();
-            return ResponseEntity.ok(false);
-        }
-    }
-
     @PostMapping(path = "/quicksignup", consumes = "application/json", produces = "application/json")
     @CrossOrigin
     public ResponseEntity<Boolean> quickSignUp(@RequestBody @Valid @NonNull User user) {
@@ -98,6 +86,7 @@ public class UserController {
             return ResponseEntity.ok(false);
         }
     }
+
     @PostMapping(path = "/formalsignup", consumes = "application/json", produces = "application/json")
     @CrossOrigin
     public ResponseEntity<Boolean> formalSignUp(@RequestBody @Valid @NonNull User user) {
@@ -115,5 +104,21 @@ public class UserController {
         }
     }
 
+    @PostMapping(path = "/requestcounselor", consumes = "application/json", produces = "application/json")
+    @CrossOrigin
+    public ResponseEntity<Boolean> requestCounselor(@RequestBody @Valid @NonNull CounselorRequestDTO counselorRequest) {
+        System.out.println("came to the server");
+
+
+
+
+        try{
+            return userService.requestCounselor(counselorRequest);
+
+        }catch(Exception e){
+            e.printStackTrace();
+            return ResponseEntity.ok(false);
+        }
+    }
 
 }

@@ -1,14 +1,14 @@
 package lk.ac.cmb.ucsc.euphoria.service;
 
+import lk.ac.cmb.ucsc.euphoria.dto.CounselorRequestDTO;
 import lk.ac.cmb.ucsc.euphoria.model.*;
-import lk.ac.cmb.ucsc.euphoria.repository.CounselorRepository;
-import lk.ac.cmb.ucsc.euphoria.repository.PasswordRepository;
-import lk.ac.cmb.ucsc.euphoria.repository.RequestRepository;
-import lk.ac.cmb.ucsc.euphoria.repository.UserRepository;
+import lk.ac.cmb.ucsc.euphoria.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.swing.text.html.Option;
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -23,6 +23,8 @@ public class UserService {
     private PasswordRepository passwordRepository;
     @Autowired
     private CounselorRepository counselorRepository;
+    @Autowired
+    private CounselorRequestRepository counselorRequestRepository;
 
 
 
@@ -32,16 +34,22 @@ public class UserService {
         requestRepository.save(request);
     }
 
-    public Boolean signIn(Password password) {
-        System.out.println(password.getEmail());
-        Optional<Password> existing= passwordRepository.findById(password.getEmail());
-        System.out.println(existing.isEmpty());
+    public List<User> signIn(Password password) {
+        String email=password.getEmail();
+
+        Optional<Password> existing= passwordRepository.findById(email);
+
         if(!existing.isEmpty()){
             Password temp=existing.get();
-            return(temp.getPassword().equals(password.getPassword()));
+            if(temp.getPassword().equals(password.getPassword())){
+               List<User> list=userRepository.findByEmail(email);
+                return list;
+            }else{
+                return null;
+            }
 
         }else{
-            return false;
+            return null;
         }
     }
 
@@ -92,5 +100,25 @@ public class UserService {
         List<Counselor> counselorList=new ArrayList<Counselor>();
         all.forEach(counselorList::add );
         return counselorList;
+    }
+
+    public ResponseEntity<Boolean> requestCounselor(@Valid CounselorRequestDTO counselorRequest) {
+
+        Counselor counselor=new Counselor();
+        counselor.setCounselor_id(counselorRequest.getCounselor_id());
+
+        User user=new User();
+        user.setUid(counselorRequest.getUser_id());
+
+        CounselorRequestIdentity id=new CounselorRequestIdentity();
+        id.setCounselor_id(counselor);
+        id.setUser_id(user);
+
+        CounselorRequest temp = counselorRequestRepository.save(new CounselorRequest(id,counselorRequest.getRequest_description()));
+        if(temp!=null){
+            return ResponseEntity.ok(true);
+        }else{
+            return ResponseEntity.ok(true);
+        }
     }
 }

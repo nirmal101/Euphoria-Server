@@ -11,7 +11,7 @@ public class User {
     @GeneratedValue(strategy=GenerationType.AUTO)
     private long uid;
 
-    private final String title;
+    private String title;
     private String first_name;
     private String last_name;
     @NotBlank
@@ -30,19 +30,24 @@ public class User {
     /******/
     private String date;
 
-    public User(
 
-                @JsonProperty("title") String title,
-                @JsonProperty("firstname") String first_name,
-                @JsonProperty("lastname") String last_name,
-                @JsonProperty("email") @NotBlank String email,
-                @JsonProperty("password") @NotBlank String password,
-                @JsonProperty("contactNumber") int contact_number,
-                @JsonProperty("dob") String date_of_birth,
-                @JsonProperty("nic") String nic,
-                @JsonProperty("city") String city,
-                @JsonProperty("district") String district,
-                @JsonProperty("accountType") String account_type ) {
+    public User() {
+    }
+
+    public User(
+            long uid, @JsonProperty("title") String title,
+            @JsonProperty("firstname") String first_name,
+            @JsonProperty("lastname") String last_name,
+            @JsonProperty("email") @NotBlank String email,
+            @JsonProperty("password") @NotBlank String password,
+            @JsonProperty("contactNumber") int contact_number,
+            @JsonProperty("dob") String date_of_birth,
+            @JsonProperty("nic") String nic,
+            @JsonProperty("city") String city,
+            @JsonProperty("district") String district,
+            @JsonProperty("accountType") String account_type) {
+        this.uid = uid;
+
         this.title = title;
         this.first_name = first_name;
         this.last_name = last_name;
@@ -55,6 +60,10 @@ public class User {
         this.district = district;
         this.status = status;
         this.account_type = account_type;
+    }
+
+    public void setUid(long uid) {
+        this.uid = uid;
     }
 
     public long getUid() {

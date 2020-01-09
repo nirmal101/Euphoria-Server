@@ -6,8 +6,8 @@ import javax.persistence.*;
 public class Counselor {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
-    private long doctor_id;
-    private String doctor_name;
+    private  long counselor_id;
+    private String counselor_name;
     @Column(length = 500)
     private String description;
     private String specialty;
@@ -18,8 +18,9 @@ public class Counselor {
     public Counselor() {
     }
 
-    public Counselor(String doctor_name, String description, String specialty, String city, String picName) {
-        this.doctor_name = doctor_name;
+    public Counselor(long counselor_id, String counselor_name, String description, String specialty, String city, String picName) {
+        this.counselor_id = counselor_id;
+        this.counselor_name = counselor_name;
         this.description = description;
         this.specialty = specialty;
         this.city = city;
@@ -34,12 +35,12 @@ public class Counselor {
         this.hospital = hospital;
     }
 
-    public long getDoctor_id() {
-        return doctor_id;
+    public long getCounselor_id() {
+        return counselor_id;
     }
 
-    public String getDoctor_name() {
-        return doctor_name;
+    public String getCounselor_name() {
+        return counselor_name;
     }
 
     public String getDescription() {
@@ -56,5 +57,9 @@ public class Counselor {
 
     public String getPicName() {
         return picName;
+    }
+
+    public void setCounselor_id(long counselor_id) {
+        this.counselor_id = counselor_id;
     }
 }
