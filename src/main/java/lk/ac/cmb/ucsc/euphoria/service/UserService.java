@@ -1,5 +1,6 @@
 package lk.ac.cmb.ucsc.euphoria.service;
 
+
 import lk.ac.cmb.ucsc.euphoria.dto.CounselorRequestDTO;
 import lk.ac.cmb.ucsc.euphoria.model.*;
 import lk.ac.cmb.ucsc.euphoria.repository.*;
@@ -11,6 +12,15 @@ import javax.swing.text.html.Option;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
+
+import lk.ac.cmb.ucsc.euphoria.repository.PasswordRepository;
+import lk.ac.cmb.ucsc.euphoria.repository.RequestRepository;
+import lk.ac.cmb.ucsc.euphoria.repository.UserRepository;
+import lk.ac.cmb.ucsc.euphoria.model.Password;
+import lk.ac.cmb.ucsc.euphoria.model.Post;
+import lk.ac.cmb.ucsc.euphoria.model.Request;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
@@ -21,6 +31,7 @@ public class UserService {
     private RequestRepository requestRepository;
     @Autowired
     private PasswordRepository passwordRepository;
+
     @Autowired
     private CounselorRepository counselorRepository;
     @Autowired
@@ -29,10 +40,12 @@ public class UserService {
 
 
     public void addPost(Post post) {
+
     }
     public void addRequest(Request request){
         requestRepository.save(request);
     }
+
 
     public List<User> signIn(Password password) {
         String email=password.getEmail();
@@ -90,10 +103,12 @@ public class UserService {
 
 
 
+
         }else{
             return false;
         }
     }
+
 
     public List<Counselor> getCounselors() {
         Iterable<Counselor> all = counselorRepository.findAll();
@@ -121,4 +136,5 @@ public class UserService {
             return ResponseEntity.ok(true);
         }
     }
+
 }

@@ -8,12 +8,12 @@ import javax.validation.constraints.NotBlank;
 import java.util.Map;
 
 @Entity
-public class Post {
-
+public class P
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     @NotBlank
+
     private  String postTitle;
     @NotBlank
     private  String postBody;
