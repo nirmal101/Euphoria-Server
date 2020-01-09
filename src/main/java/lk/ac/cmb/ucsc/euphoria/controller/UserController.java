@@ -1,8 +1,13 @@
 package lk.ac.cmb.ucsc.euphoria.controller;
 
+
+import lk.ac.cmb.ucsc.euphoria.dto.CounselorRequestDTO;
+import lk.ac.cmb.ucsc.euphoria.model.*;
+
 import lk.ac.cmb.ucsc.euphoria.model.Password;
 import lk.ac.cmb.ucsc.euphoria.model.Post;
 import lk.ac.cmb.ucsc.euphoria.model.Request;
+
 import lk.ac.cmb.ucsc.euphoria.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +15,11 @@ import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 
 @RequestMapping("api/user")
 @RestController
@@ -34,6 +44,14 @@ public class UserController {
         System.out.println(request.getDoctor_name());
     }
 
+    @GetMapping(path = "/getCounselors", produces = "application/json")
+    @CrossOrigin
+    public List<Counselor> getCounselors() {
+        System.out.println("Get counselors");
+        return userService.getCounselors();
+    }
+
+
     @PostMapping(path = "/newpost", consumes = "application/json", produces = "application/json")
     @CrossOrigin
     public void addPost(@RequestBody @Valid @NonNull Post post) {
@@ -45,12 +63,32 @@ public class UserController {
 
     @PostMapping(path = "/signin", consumes = "application/json", produces = "application/json")
     @CrossOrigin
-    public ResponseEntity<Boolean> signIn(@RequestBody @Valid @NonNull Password password) {
+
+    public List<User> signIn(@RequestBody @Valid @NonNull Password password) {
 
         System.out.println("came to the server");
+        System.out.println(password.getEmail()+" email");
         value=true;
         try{
-            if(userService.signIn(password)){
+//            if(userService.signIn(password)){
+//                return ResponseEntity.ok(true);
+//            }else{
+//                return ResponseEntity.ok(false);
+//            }
+            return userService.signIn(password);
+        }catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+    @PostMapping(path = "/quicksignup", consumes = "application/json", produces = "application/json")
+    @CrossOrigin
+    public ResponseEntity<Boolean> quickSignUp(@RequestBody @Valid @NonNull User user) {
+
+        System.out.println("came to the server");
+        try{
+            if(userService.quickSignUp(user)){
+
                 return ResponseEntity.ok(true);
             }else{
                 return ResponseEntity.ok(false);
@@ -60,19 +98,41 @@ public class UserController {
             return ResponseEntity.ok(false);
         }
     }
-    @PostMapping(path = "/sign", consumes = "application/json", produces = "application/json")
+
+
+    @PostMapping(path = "/formalsignup", consumes = "application/json", produces = "application/json")
     @CrossOrigin
-    public ResponseEntity<Boolean> sign(@RequestBody @Valid @NonNull Password password) {
+    public ResponseEntity<Boolean> formalSignUp(@RequestBody @Valid @NonNull User user) {
 
         System.out.println("came to the server");
         try{
-            return ResponseEntity.ok(value);
-
+            if(userService.formalSignUp(user)){
+                return ResponseEntity.ok(true);
+            }else{
+                return ResponseEntity.ok(false);
+            }
         }catch(Exception e){
             e.printStackTrace();
             return ResponseEntity.ok(false);
         }
     }
 
+    @PostMapping(path = "/requestcounselor", consumes = "application/json", produces = "application/json")
+    @CrossOrigin
+    public ResponseEntity<Boolean> requestCounselor(@RequestBody @Valid @NonNull CounselorRequestDTO counselorRequest) {
+        System.out.println("came to the server");
+
+
+
+
+        try{
+            return userService.requestCounselor(counselorRequest);
+
+
+        }catch(Exception e){
+            e.printStackTrace();
+            return ResponseEntity.ok(false);
+        }
+    }
 
 }
