@@ -8,7 +8,7 @@ import javax.validation.constraints.NotBlank;
 import java.util.Map;
 
 @Entity
-public class P
+public class Post{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
