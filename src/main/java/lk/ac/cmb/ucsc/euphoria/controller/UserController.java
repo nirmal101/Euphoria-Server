@@ -1,6 +1,8 @@
 package lk.ac.cmb.ucsc.euphoria.controller;
 
+import lk.ac.cmb.ucsc.euphoria.dto.CommentDTO;
 import lk.ac.cmb.ucsc.euphoria.dto.CounselorRequestDTO;
+import lk.ac.cmb.ucsc.euphoria.dto.PostDTO;
 import lk.ac.cmb.ucsc.euphoria.model.*;
 import lk.ac.cmb.ucsc.euphoria.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,15 +44,6 @@ public class UserController {
         return userService.getCounselors();
     }
 
-    @PostMapping(path = "/newpost", consumes = "application/json", produces = "application/json")
-    @CrossOrigin
-    public void addPost(@RequestBody @Valid @NonNull Post post) {
-
-        System.out.println("came to the server");
-        System.out.println(post.getFeelings());
-        userService.addPost(post);
-    }
-
     @PostMapping(path = "/signin", consumes = "application/json", produces = "application/json")
     @CrossOrigin
     public List<User> signIn(@RequestBody @Valid @NonNull Password password) {
@@ -70,6 +63,7 @@ public class UserController {
             return null;
         }
     }
+
     @PostMapping(path = "/quicksignup", consumes = "application/json", produces = "application/json")
     @CrossOrigin
     public ResponseEntity<Boolean> quickSignUp(@RequestBody @Valid @NonNull User user) {
@@ -86,7 +80,6 @@ public class UserController {
             return ResponseEntity.ok(false);
         }
     }
-
     @PostMapping(path = "/formalsignup", consumes = "application/json", produces = "application/json")
     @CrossOrigin
     public ResponseEntity<Boolean> formalSignUp(@RequestBody @Valid @NonNull User user) {
@@ -108,10 +101,6 @@ public class UserController {
     @CrossOrigin
     public ResponseEntity<Boolean> requestCounselor(@RequestBody @Valid @NonNull CounselorRequestDTO counselorRequest) {
         System.out.println("came to the server");
-
-
-
-
         try{
             return userService.requestCounselor(counselorRequest);
 
@@ -121,4 +110,39 @@ public class UserController {
         }
     }
 
+    @PostMapping(path = "/newpost", consumes = "application/json", produces = "application/json")
+    @CrossOrigin
+    public Post addPost(@RequestBody @Valid @NonNull PostDTO post) {
+
+        System.out.println("came to the server");
+        System.out.println(post.getPost_description());
+
+        try{
+            return userService.addPost(post);
+
+        }catch(Exception e){
+            e.printStackTrace();
+            return new Post();
+        }
+    }
+    @PostMapping(path = "/addcomment", consumes = "application/json", produces = "application/json")
+    @CrossOrigin
+    public Post addCommentToPost(@RequestBody @Valid @NonNull CommentDTO comment) {
+
+        System.out.println("came to the server");
+
+        try{
+            return userService.addCommentToPost(comment);
+
+        }catch(Exception e){
+            e.printStackTrace();
+            return new Post();
+        }
+    }
+    @GetMapping(path = "/getposts", produces = "application/json")
+    @CrossOrigin
+    public List<Post> getPosts() {
+        System.out.println("Get counselors");
+        return userService.getPosts();
+    }
 }
