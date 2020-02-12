@@ -1,27 +1,21 @@
 package lk.ac.cmb.ucsc.euphoria.service;
 
-
+import lk.ac.cmb.ucsc.euphoria.dto.CommentDTO;
 import lk.ac.cmb.ucsc.euphoria.dto.CounselorRequestDTO;
+import lk.ac.cmb.ucsc.euphoria.dto.PostDTO;
 import lk.ac.cmb.ucsc.euphoria.model.*;
 import lk.ac.cmb.ucsc.euphoria.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
 import javax.validation.Valid;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-
-import lk.ac.cmb.ucsc.euphoria.repository.PasswordRepository;
-import lk.ac.cmb.ucsc.euphoria.repository.RequestRepository;
-import lk.ac.cmb.ucsc.euphoria.repository.UserRepository;
-import lk.ac.cmb.ucsc.euphoria.model.Password;
-import lk.ac.cmb.ucsc.euphoria.model.Post;
-import lk.ac.cmb.ucsc.euphoria.model.Request;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class UserService {
@@ -31,21 +25,34 @@ public class UserService {
     private RequestRepository requestRepository;
     @Autowired
     private PasswordRepository passwordRepository;
-
     @Autowired
     private CounselorRepository counselorRepository;
     @Autowired
     private CounselorRequestRepository counselorRequestRepository;
+    @Autowired
+    private PostRepository postRepository;
 
 
+    public Post addPost(PostDTO postdto) {
+        System.out.println("came to posting");
+        User user=userRepository.findById(postdto.getUser_id()).get();
 
-    public void addPost(Post post) {
+
+        List<PostEmotionTag> emotionTags=new ArrayList<>();
+        postdto.getEmotion_tags().forEach((tag)->{
+            System.out.println(tag);
+            emotionTags.add(new PostEmotionTag(tag));
+        });
+
+        Post post=new Post(postdto.getPost_title(),postdto.getPost_description(),user,emotionTags);
+
+        return postRepository.save(post);
+
 
     }
     public void addRequest(Request request){
         requestRepository.save(request);
     }
-
 
     public List<User> signIn(Password password) {
         String email=password.getEmail();
@@ -70,7 +77,7 @@ public class UserService {
         Optional<Password> existing= passwordRepository.findById(user.getEmail());
         if(existing.isEmpty()){
 
-            Password temp=new Password(user.getEmail(),user.getPassword());
+            Password temp=new Password(user.getEmail(),user.getPassword(),"Patient");
             Password pw=passwordRepository.save(temp);
             User us=userRepository.save(user);
             if (pw == null & us==null) {
@@ -91,7 +98,7 @@ public class UserService {
     public boolean formalSignUp(User user) {
         Optional<Password> existing= passwordRepository.findById(user.getEmail());
         if(existing.isEmpty()){
-            Password temp=new Password(user.getEmail(),user.getPassword());
+            Password temp=new Password(user.getEmail(),user.getPassword(),"User");
             Password pw=passwordRepository.save(temp);
             User us=userRepository.save(user);
             if (pw == null & us==null) {
@@ -103,12 +110,10 @@ public class UserService {
 
 
 
-
         }else{
             return false;
         }
     }
-
 
     public List<Counselor> getCounselors() {
         Iterable<Counselor> all = counselorRepository.findAll();
@@ -137,4 +142,59 @@ public class UserService {
         }
     }
 
+    public List<Post> getPosts() {
+        long x=9;
+       List<Post> posts=(List<Post>) postRepository.findAll();
+       posts.forEach(post -> {
+           List<Comment> comments=post.getComments();
+           comments.forEach(comment -> {
+               String comment_age=calculateDateDifference(comment.getTimestamp());
+               comment.setComment_age(comment_age);
+           });
+           String post_age=calculateDateDifference(post.getTimestamp());
+           post.setPost_age(post_age);
+       });
+       return posts;
+    }
+
+    public Post addCommentToPost(CommentDTO commentdto) {
+        //create a user object for primary key in comment.set the uid to the commented user's id
+        User commented_user=new User();
+        commented_user.setUid(commentdto.getUser_id());
+
+        //create a new comment object using the commentdto
+        Comment new_comment=new Comment(commentdto.getComment_description(),commented_user);
+
+        //get the post in order to the comment
+        Optional<Post> optional=postRepository.findById(commentdto.getPost_id());
+        Post post=optional.get();
+
+        //add the comment to the post
+        post.getComments().add(new_comment);
+
+        //update the post in the databse
+        return postRepository.save(post);
+
+    }
+
+    public String calculateDateDifference(Date old){
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+        Date firstDate = new Date();
+        Date secondDate = old;
+
+        long diffInMillies = Math.abs(secondDate.getTime() - firstDate.getTime());
+        long diff = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+        if(diff<1){
+            long diff2=TimeUnit.HOURS.convert(diffInMillies,TimeUnit.MILLISECONDS);
+            if(diff2<1){
+                long diff3=TimeUnit.MINUTES.convert(diffInMillies,TimeUnit.MILLISECONDS);
+                if(diff3<1){
+                    return "Just now";
+                }
+                return diff3==1 ? diff3+ " minute ago":diff3+" minutes ago";
+            }
+            return diff2==1 ? diff2+ " hour ago":diff2+" hours ago";
+        }
+        return diff==1 ? diff+ " day ago":diff+" days ago";
+    }
 }
