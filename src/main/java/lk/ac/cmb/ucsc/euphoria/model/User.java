@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.Date;
 
 @Entity
 public class User {
@@ -28,7 +29,9 @@ public class User {
     private String status;//whether online or not
     private String account_type;//quick or formal
     /******/
-    private String date;
+    private Date timestamp=new Date();
+
+    private String pic_name;
 
 
     public User() {
@@ -45,7 +48,8 @@ public class User {
             @JsonProperty("nic") String nic,
             @JsonProperty("city") String city,
             @JsonProperty("district") String district,
-            @JsonProperty("accountType") String account_type) {
+            @JsonProperty("accountType") String account_type,
+            @JsonProperty("pic_name") String pic_name) {
         this.uid = uid;
 
         this.title = title;
@@ -60,10 +64,19 @@ public class User {
         this.district = district;
         this.status = status;
         this.account_type = account_type;
+        this.pic_name=pic_name;
     }
 
     public void setUid(long uid) {
         this.uid = uid;
+    }
+
+    public Date getTimestamp() {
+        return timestamp;
+    }
+
+    public String getPic_name() {
+        return pic_name;
     }
 
     public long getUid() {
