@@ -120,7 +120,7 @@ public class UserService {
     public ResponseEntity<Boolean> requestCounselor(@Valid CounselorRequestDTO counselorRequest) {
 
         Counselor counselor=new Counselor();
-        counselor.setCounselor_id(counselorRequest.getCounselor_id());
+        counselor.setId(counselorRequest.getCounselor_id());
 
         User user=new User();
         user.setUid(counselorRequest.getUser_id());
