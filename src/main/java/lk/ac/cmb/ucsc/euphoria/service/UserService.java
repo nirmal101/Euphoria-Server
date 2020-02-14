@@ -4,6 +4,7 @@ import lk.ac.cmb.ucsc.euphoria.dto.CommentDTO;
 import lk.ac.cmb.ucsc.euphoria.dto.CounselorRequestDTO;
 import lk.ac.cmb.ucsc.euphoria.dto.PostDTO;
 import lk.ac.cmb.ucsc.euphoria.model.*;
+import lk.ac.cmb.ucsc.euphoria.model.counselor.Counselor;
 import lk.ac.cmb.ucsc.euphoria.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

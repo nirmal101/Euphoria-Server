@@ -49,7 +49,8 @@ public class User {
             @JsonProperty("city") String city,
             @JsonProperty("district") String district,
             @JsonProperty("accountType") String account_type,
-            @JsonProperty("pic_name") String pic_name) {
+            @JsonProperty("pic_name") String pic_name
+    ) {
         this.uid = uid;
 
         this.title = title;

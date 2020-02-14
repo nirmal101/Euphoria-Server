@@ -1,4 +1,4 @@
-package lk.ac.cmb.ucsc.euphoria.model;
+package lk.ac.cmb.ucsc.euphoria.model.counselor;
 
 import lk.ac.cmb.ucsc.euphoria.model.common.LoginCredentials;
 import lk.ac.cmb.ucsc.euphoria.model.common.SuperEntity;

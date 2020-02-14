@@ -1,7 +1,7 @@
 package lk.ac.cmb.ucsc.euphoria.controller;
 
 import lk.ac.cmb.ucsc.euphoria.model.Appointment;
-import lk.ac.cmb.ucsc.euphoria.model.Counselor;
+import lk.ac.cmb.ucsc.euphoria.model.counselor.Counselor;
 import lk.ac.cmb.ucsc.euphoria.model.PatientRecords;
 import lk.ac.cmb.ucsc.euphoria.model.common.LoginCredentials;
 import lk.ac.cmb.ucsc.euphoria.service.CounselorService;

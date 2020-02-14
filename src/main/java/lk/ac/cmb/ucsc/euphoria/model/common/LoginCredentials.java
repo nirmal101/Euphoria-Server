@@ -14,6 +14,9 @@ public class LoginCredentials extends SuperEntity{
     @Column
     String email;
 
+    @Column
+    Boolean isChanged;
+
     public LoginCredentials() {
     }
 
@@ -50,5 +53,13 @@ public class LoginCredentials extends SuperEntity{
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Boolean getChanged() {
+        return isChanged;
+    }
+
+    public void setChanged(Boolean changed) {
+        isChanged = changed;
     }
 }
