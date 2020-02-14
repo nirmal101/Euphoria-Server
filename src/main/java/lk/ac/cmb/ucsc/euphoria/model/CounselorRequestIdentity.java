@@ -1,6 +1,6 @@
 package lk.ac.cmb.ucsc.euphoria.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import lk.ac.cmb.ucsc.euphoria.model.counselor.Counselor;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -13,7 +13,8 @@ public class CounselorRequestIdentity  implements Serializable {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn()
-    private  Counselor counselor_id;
+    private Counselor counselor_id;
+
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn
     private User user_id;
