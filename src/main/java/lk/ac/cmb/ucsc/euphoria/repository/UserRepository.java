@@ -1,7 +1,6 @@
 package lk.ac.cmb.ucsc.euphoria.repository;
 
-
-
+import lk.ac.cmb.ucsc.euphoria.model.Post;
 import lk.ac.cmb.ucsc.euphoria.model.User;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;

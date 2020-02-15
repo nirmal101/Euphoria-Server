@@ -4,6 +4,7 @@ import lk.ac.cmb.ucsc.euphoria.model.Admin;
 import lk.ac.cmb.ucsc.euphoria.model.Counselor;
 import lk.ac.cmb.ucsc.euphoria.model.User;
 import lk.ac.cmb.ucsc.euphoria.service.AdminService;
+import org.hibernate.validator.constraints.pl.REGON;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,7 @@ public class AdminController {
         this.adminService = adminService;
     }
 
+    //***********************************************************ADMINS***********************************************************
     @GetMapping(path="/getActiveAdmins", produces = "application/json")
     @CrossOrigin
     public List<Admin> getAdmins(){
@@ -36,6 +38,20 @@ public class AdminController {
         adminService.deleteAdmin(Long.parseLong(id));
     }
 
+    @CrossOrigin
+    @PostMapping(path="/addAdmin", consumes="application/json")
+    public void addAdmin(
+            @RequestParam String firstName,
+            @RequestParam String lastName,
+            @RequestParam String email,
+            @RequestParam String username,
+            @RequestParam String password,
+            @RequestParam String activeStatus
+    ){
+        adminService.addAdmin(firstName,lastName,email,username,password,activeStatus);
+    }
+
+    //*********************************************************USERS*********************************************************
     @GetMapping(path="/getFormalUsers", produces = "application/json")
     @CrossOrigin
     public List<User> getFormalUsers(){
@@ -48,6 +64,7 @@ public class AdminController {
         return adminService.getQuickUsers();
     }
 
+    //*****************************************************COUNSELORS*****************************************************
     @GetMapping(path="/getCounselors", produces = "application/json")
     @CrossOrigin
     public List<Counselor> getCounselors(){

@@ -37,6 +37,17 @@ public class AdminService {
         adminRepository.deleteAdmin(id);
     }
 
+    public void addAdmin(
+            @PathVariable String firstName,
+            @PathVariable String lastName,
+            @PathVariable String email,
+            @PathVariable String username,
+            @PathVariable String password,
+            @PathVariable String activeStatus
+    ){
+        adminRepository.addAdmin(firstName,lastName,email,username,password,activeStatus);
+    }
+
     //**************************************************User Repository*************************************************
     public List<User> getFormalUsers(){
         Iterable<User> all = userRepository.findByAccountType("formal");

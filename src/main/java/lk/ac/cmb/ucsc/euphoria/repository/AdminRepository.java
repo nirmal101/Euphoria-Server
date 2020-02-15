@@ -17,4 +17,8 @@ public interface AdminRepository extends CrudRepository<Admin, Long> {
     @Transactional
     @Query(value="UPDATE Admin SET active_Status='Inactive' WHERE adminID=?1", nativeQuery = true)
     public void deleteAdmin(Long id);
+
+    @Modifying(clearAutomatically = true)
+    @Query(value="INSERT INTO Admin(firstName,lastName,email,adminUsername,adminPassword,activeStatus) VALUES('?1','?2','?3','?4','?5','?6')", nativeQuery = true)
+    public void addAdmin(String fName, String lName, String email, String username, String password, String activeStatus);
 }

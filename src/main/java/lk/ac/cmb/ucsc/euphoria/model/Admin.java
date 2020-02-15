@@ -15,8 +15,8 @@ public class Admin {
     @NotBlank
     private String adminUsername;
     private String email;
-    private String FirstName;
-    private String LastName;
+    private String firstName;
+    private String lastName;
     private String activeStatus; //active - active account inactive - deleted account
 
     @NotBlank
@@ -30,12 +30,16 @@ public class Admin {
             Long ID,
             @JsonProperty("adminUsername") String Username,
             @JsonProperty("email") String Email,
+            @JsonProperty("firstName") String firstName,
+            @JsonProperty("lastName") String lastName,
             @JsonProperty("adminPassword") String Password,
             @JsonProperty("activeStatus") String Status
     ) {
         this.adminID = ID;
         this.adminUsername = Username;
         this.email = Email;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.adminPassword = Password;
         this.activeStatus = Status;
     }
@@ -64,13 +68,13 @@ public class Admin {
         this.email = email;
     }
 
-    public String getFirstName() { return FirstName; }
+    public String getFirstName() { return firstName; }
 
-    public void setFirstName(String firstName) { FirstName = firstName; }
+    public void setFirstName(String firstName) { firstName = firstName; }
 
-    public String getLastName() { return LastName; }
+    public String getLastName() { return lastName; }
 
-    public void setLastName(String lastName) { LastName = lastName; }
+    public void setLastName(String lastName) { lastName = lastName; }
 
     public String getActiveStatus() {
         return activeStatus;
