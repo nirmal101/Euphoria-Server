@@ -47,10 +47,4 @@ public class CounselorController {
         return counselorService.getAllPatientRecords();
     }
 
-//    @CrossOrigin
-//    @GetMapping
-//    public PatientRecords getSinglePatientRecords(Long patient){
-//        return counselorService.getSinglePatientRecords(patient);
-//    }
-
 }
