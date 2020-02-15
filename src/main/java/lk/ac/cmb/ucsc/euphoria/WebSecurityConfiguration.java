@@ -1,20 +1,41 @@
 package lk.ac.cmb.ucsc.euphoria;
 
+import lk.ac.cmb.ucsc.euphoria.service.LoginService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
+import javax.sql.DataSource;
+
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
+//    @Autowired
+//    DataSource dataSource;
+
+    @Autowired
+    LoginService loginService;
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication()
-                .withUser("sysadmin")
-                .password("sysadmin")
-                .roles("ADMIN");
+        auth.userDetailsService(loginService);
+//        auth.jdbcAuthentication()
+//                .dataSource(dataSource)
+//                .usersByUsernameQuery(
+//                        "select username,password,enabled from login_credentials where username=?"
+//                )
+//                .authoritiesByUsernameQuery(
+//                        "select username,"+
+//                        "(select 'ROLE_COUNSELOR' from counselor C where L.id = C.login_credentials_id)"+
+//                        "as authority from login_credentials L where username = ?"
+//                );
+//        auth.inMemoryAuthentication()
+//                .withUser("sysadmin")
+//                .password("sysadmin")
+//                .roles("ADMIN");
     }
 
     @Override

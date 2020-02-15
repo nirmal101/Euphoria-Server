@@ -5,7 +5,10 @@ import lk.ac.cmb.ucsc.euphoria.model.common.LoginCredentials;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface CounselorRepository extends CrudRepository<Counselor,Long> {
-    public List<LoginCredentials> findByName(String username);
+    public List<Counselor> findByName(String username);
+
+    public Optional<Counselor> findByLoginCredentials(LoginCredentials credential);
 }

@@ -29,7 +29,7 @@ public class UserService {
     @Autowired
     private CounselorRepository counselorRepository;
     @Autowired
-    private CounselorRequestRepository counselorRequestRepository;
+    private AppointmentRequestRepository counselorRequestRepository;
     @Autowired
     private PostRepository postRepository;
 
@@ -131,11 +131,11 @@ public class UserService {
         User user=new User();
         user.setUid(counselorRequest.getUser_id());
 
-        CounselorRequestIdentity id=new CounselorRequestIdentity();
+        AppointmentRequestPK id=new AppointmentRequestPK();
         id.setCounselor_id(counselor);
         id.setUser_id(user);
 
-        CounselorRequest temp = counselorRequestRepository.save(new CounselorRequest(id,counselorRequest.getRequest_description()));
+        AppointmentRequest temp = counselorRequestRepository.save(new AppointmentRequest(id,counselorRequest.getRequest_description()));
         if(temp!=null){
             return ResponseEntity.ok(true);
         }else{
