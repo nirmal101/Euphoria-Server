@@ -1,6 +1,6 @@
 package lk.ac.cmb.ucsc.euphoria.repository;
 
-import lk.ac.cmb.ucsc.euphoria.model.Post;
+
 
 import lk.ac.cmb.ucsc.euphoria.model.User;
 import org.springframework.data.jpa.repository.Query;
@@ -15,4 +15,7 @@ public interface UserRepository extends CrudRepository<User,Long> {
 
       public List<User> findByEmail(String email);
 
+      //Admin methods
+      @Query(value="SELECT* FROM User WHERE Account_Type=?1", nativeQuery=true)
+      public List<User> findByAccountType(String type);
 }

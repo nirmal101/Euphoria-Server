@@ -5,7 +5,6 @@ import lk.ac.cmb.ucsc.euphoria.dto.CounselorRequestDTO;
 import lk.ac.cmb.ucsc.euphoria.model.*;
 
 import lk.ac.cmb.ucsc.euphoria.model.Password;
-import lk.ac.cmb.ucsc.euphoria.model.Post;
 import lk.ac.cmb.ucsc.euphoria.model.Request;
 
 import lk.ac.cmb.ucsc.euphoria.service.UserService;
@@ -19,7 +18,6 @@ import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
 
 @RequestMapping("api/user")
 @RestController
@@ -51,14 +49,10 @@ public class UserController {
         return userService.getCounselors();
     }
 
-
-    @PostMapping(path = "/newpost", consumes = "application/json", produces = "application/json")
+    @GetMapping(path="/getUsers", produces = "application/json")
     @CrossOrigin
-    public void addPost(@RequestBody @Valid @NonNull Post post) {
-
-        System.out.println("came to the server");
-        System.out.println(post.getFeelings());
-        userService.addPost(post);
+    public List<User> getUsers(){
+        return userService.getUsers();
     }
 
     @PostMapping(path = "/signin", consumes = "application/json", produces = "application/json")
