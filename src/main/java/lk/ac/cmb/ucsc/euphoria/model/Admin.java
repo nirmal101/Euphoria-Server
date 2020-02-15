@@ -10,7 +10,7 @@ import javax.validation.constraints.NotBlank;
 public class Admin {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long adminID;
+    private long adminID;
 
     @NotBlank
     private String adminUsername;
@@ -19,7 +19,7 @@ public class Admin {
     private String lastName;
     private String activeStatus; //active - active account inactive - deleted account
 
-    @NotBlank
+
     @Transient
     private String adminPassword;
 
@@ -27,7 +27,6 @@ public class Admin {
     }
 
     public Admin(
-            Long ID,
             @JsonProperty("adminUsername") String Username,
             @JsonProperty("email") String Email,
             @JsonProperty("firstName") String firstName,
@@ -35,7 +34,6 @@ public class Admin {
             @JsonProperty("adminPassword") String Password,
             @JsonProperty("activeStatus") String Status
     ) {
-        this.adminID = ID;
         this.adminUsername = Username;
         this.email = Email;
         this.firstName = firstName;

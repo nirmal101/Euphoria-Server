@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @RequestMapping("api/admin")
@@ -40,15 +41,11 @@ public class AdminController {
 
     @CrossOrigin
     @PostMapping(path="/addAdmin", consumes="application/json")
-    public void addAdmin(
-            @RequestParam String firstName,
-            @RequestParam String lastName,
-            @RequestParam String email,
-            @RequestParam String username,
-            @RequestParam String password,
-            @RequestParam String activeStatus
-    ){
-        adminService.addAdmin(firstName,lastName,email,username,password,activeStatus);
+    public void addAdmin(@RequestBody @NotNull Admin admin   ){
+        System.out.println("came to the server");
+        System.out.println(admin.getAdminUsername());
+        adminService.addAdmin(admin);
+
     }
 
     //*********************************************************USERS*********************************************************
@@ -68,6 +65,7 @@ public class AdminController {
     @GetMapping(path="/getCounselors", produces = "application/json")
     @CrossOrigin
     public List<Counselor> getCounselors(){
+
         return adminService.getCounselors();
     }
 }

@@ -2,9 +2,11 @@ package lk.ac.cmb.ucsc.euphoria.service;
 
 import lk.ac.cmb.ucsc.euphoria.model.Admin;
 import lk.ac.cmb.ucsc.euphoria.model.Counselor;
+import lk.ac.cmb.ucsc.euphoria.model.Password;
 import lk.ac.cmb.ucsc.euphoria.model.User;
 import lk.ac.cmb.ucsc.euphoria.repository.AdminRepository;
 import lk.ac.cmb.ucsc.euphoria.repository.CounselorRepository;
+import lk.ac.cmb.ucsc.euphoria.repository.PasswordRepository;
 import lk.ac.cmb.ucsc.euphoria.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,6 +27,9 @@ public class AdminService {
     @Autowired
     private CounselorRepository counselorRepository;
 
+    @Autowired
+    private PasswordRepository passwordRepository;
+
     //*************************************************Admin Repository*************************************************
     public List<Admin> getActiveAdmins(){
         Iterable<Admin> all = adminRepository.findByActiveStatus("Active");
@@ -37,15 +42,13 @@ public class AdminService {
         adminRepository.deleteAdmin(id);
     }
 
-    public void addAdmin(
-            @PathVariable String firstName,
-            @PathVariable String lastName,
-            @PathVariable String email,
-            @PathVariable String username,
-            @PathVariable String password,
-            @PathVariable String activeStatus
-    ){
-        adminRepository.addAdmin(firstName,lastName,email,username,password,activeStatus);
+    public void addAdmin(Admin admin){
+        Password pw=new Password();
+        pw.setEmail(admin.getEmail());
+        pw.setPassword(admin.getAdminPassword());
+        pw.setUser_type("Admin");
+        adminRepository.save(admin);
+        passwordRepository.save(pw);
     }
 
     //**************************************************User Repository*************************************************
