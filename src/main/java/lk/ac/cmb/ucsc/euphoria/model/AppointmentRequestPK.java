@@ -1,14 +1,15 @@
 package lk.ac.cmb.ucsc.euphoria.model;
 
 import lk.ac.cmb.ucsc.euphoria.model.counselor.Counselor;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Embeddable
-public class CounselorRequestIdentity  implements Serializable {
+public class AppointmentRequestPK implements Serializable {
 
 
     @ManyToOne(cascade = CascadeType.ALL)
@@ -18,26 +19,23 @@ public class CounselorRequestIdentity  implements Serializable {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn
     private User user_id;
-    private  Date timestamp;
 
+    @CreationTimestamp
+    private LocalDateTime createdAt;
 
+    public AppointmentRequestPK() {}
 
-    public CounselorRequestIdentity() {
-        this.timestamp = new Date();
-    }
-
-    public CounselorRequestIdentity( Counselor counselor_id,User user_id) {
+    public AppointmentRequestPK(Counselor counselor_id, User user_id) {
         this.counselor_id = counselor_id;
         this.user_id = user_id;
-        this.timestamp = new Date();
     }
 
-    public Date getTimestamp() {
-        return timestamp;
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 
-    public void setTimestamp(Date timestamp) {
-        this.timestamp = timestamp;
+    public void setCreatedAt(LocalDateTime timestamp) {
+        this.createdAt = timestamp;
     }
 
     public Counselor getCounselor_id() {
@@ -59,15 +57,15 @@ public class CounselorRequestIdentity  implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof CounselorRequestIdentity)) return false;
-        CounselorRequestIdentity that = (CounselorRequestIdentity) o;
+        if (!(o instanceof AppointmentRequestPK)) return false;
+        AppointmentRequestPK that = (AppointmentRequestPK) o;
         return getCounselor_id().equals(that.getCounselor_id()) &&
                 getUser_id().equals(that.getUser_id()) &&
-                getTimestamp().equals(that.getTimestamp());
+                getCreatedAt().equals(that.getCreatedAt());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getCounselor_id(), getUser_id(), getTimestamp());
+        return Objects.hash(getCounselor_id(), getUser_id(), getCreatedAt());
     }
 }
