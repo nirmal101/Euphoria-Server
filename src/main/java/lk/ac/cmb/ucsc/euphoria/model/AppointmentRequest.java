@@ -2,7 +2,7 @@ package lk.ac.cmb.ucsc.euphoria.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lk.ac.cmb.ucsc.euphoria.constants.AppointmentStatus;
-import lk.ac.cmb.ucsc.euphoria.helpers.AppointmentStatusConverter;
+import lk.ac.cmb.ucsc.euphoria.util.AppointmentStatusConverter;
 
 import javax.persistence.Convert;
 import javax.persistence.EmbeddedId;

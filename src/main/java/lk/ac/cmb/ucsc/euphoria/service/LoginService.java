@@ -27,8 +27,8 @@ public class LoginService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         Optional<LoginCredentials> credentials=loginCredentialRepository.findByUsername(s);
-        if (credentials.isEmpty())
-            return null;
+
+        credentials.orElseThrow(() -> new UsernameNotFoundException("Username "+s+" is not found"));
 
         LoginCredentials credential = credentials.get();
 
@@ -38,5 +38,7 @@ public class LoginService implements UserDetailsService {
 
         return credential;
     }
+
+
 
 }

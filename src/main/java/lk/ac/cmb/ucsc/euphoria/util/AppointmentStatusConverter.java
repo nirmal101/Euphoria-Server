@@ -1,4 +1,4 @@
-package lk.ac.cmb.ucsc.euphoria.helpers;
+package lk.ac.cmb.ucsc.euphoria.util;
 
 import lk.ac.cmb.ucsc.euphoria.constants.AppointmentStatus;
 
