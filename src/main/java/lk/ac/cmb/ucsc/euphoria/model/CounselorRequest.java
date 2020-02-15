@@ -4,14 +4,17 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import java.util.Date;
 
 @Entity
 public class CounselorRequest {
         @EmbeddedId
         private  CounselorRequestIdentity id;
         private String request_desc;
+        private Date date;
 
         public CounselorRequest() {
+                date=new Date();
         }
 
         public CounselorRequest(@JsonProperty("user_counselor") CounselorRequestIdentity id,@JsonProperty("request_description") String request_desc) {

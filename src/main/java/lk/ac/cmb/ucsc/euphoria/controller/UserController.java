@@ -1,19 +1,22 @@
 package lk.ac.cmb.ucsc.euphoria.controller;
 
+import lk.ac.cmb.ucsc.euphoria.components.Mail;
+import lk.ac.cmb.ucsc.euphoria.components.MailService;
+import lk.ac.cmb.ucsc.euphoria.components.MailServiceImpl;
 import lk.ac.cmb.ucsc.euphoria.dto.CommentDTO;
 import lk.ac.cmb.ucsc.euphoria.dto.CounselorRequestDTO;
 import lk.ac.cmb.ucsc.euphoria.dto.PostDTO;
 import lk.ac.cmb.ucsc.euphoria.model.*;
 import lk.ac.cmb.ucsc.euphoria.service.UserService;
+import org.apache.catalina.core.ApplicationContext;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.SpringApplication;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @RequestMapping("api/user")
 @RestController
@@ -23,6 +26,7 @@ public class UserController {
     @Autowired
     private final UserService userService;
     private Boolean value=false;
+
 
 
     public UserController(UserService userService) {
@@ -145,5 +149,19 @@ public class UserController {
     public List<Post> getPosts() {
         System.out.println("Get counselors");
         return userService.getPosts();
+    }
+    @PostMapping(path = "/verifyaccount", consumes = "application/json", produces = "application/json")
+    @CrossOrigin
+    public void verifyAccount() {
+        Mail mail = new Mail();
+        mail.setMailFrom("dkstallion.ns@gmail.com");
+        mail.setMailTo("calmnirmal@gmail.com");
+        mail.setMailSubject("Spring Boot - Email Example");
+        mail.setMailContent("Learn How to send Email using Spring Boot!!!\n\nThanks\nwww.technicalkeeda.com");
+
+        MailServiceImpl mailService = new MailServiceImpl();
+        mailService.sendEmail(mail);
+
+
     }
 }
