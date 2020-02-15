@@ -13,4 +13,5 @@ public interface UserRepository extends CrudRepository<User,Long> {
 //    public List<User> find(@Param("user_email") String user_email);
 
       public List<User> findByEmail(String email);
+
 }

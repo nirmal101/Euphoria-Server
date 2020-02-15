@@ -12,9 +12,10 @@ public class User {
     @GeneratedValue(strategy=GenerationType.AUTO)
     private long uid;
 
-    private String title;
+
     private String first_name;
     private String last_name;
+    private String gender;
     @NotBlank
     private String email;
     @NotBlank
@@ -28,6 +29,7 @@ public class User {
 
     private String status;//whether online or not
     private String account_type;//quick or formal
+    private String activated;
     /******/
     private Date timestamp=new Date();
 
@@ -38,7 +40,7 @@ public class User {
     }
 
     public User(
-            long uid, @JsonProperty("title") String title,
+            long uid, @JsonProperty("gender") String gender,
             @JsonProperty("firstname") String first_name,
             @JsonProperty("lastname") String last_name,
             @JsonProperty("email") @NotBlank String email,
@@ -52,7 +54,7 @@ public class User {
             @JsonProperty("pic_name") String pic_name) {
         this.uid = uid;
 
-        this.title = title;
+        this.gender = gender;
         this.first_name = first_name;
         this.last_name = last_name;
         this.email = email;
@@ -75,6 +77,14 @@ public class User {
         return timestamp;
     }
 
+    public String getActivated() {
+        return activated;
+    }
+
+    public void setActivated(String activated) {
+        this.activated = activated;
+    }
+
     public String getPic_name() {
         return pic_name;
     }
@@ -83,8 +93,8 @@ public class User {
         return uid;
     }
 
-    public String getTitle() {
-        return title;
+    public String getGender() {
+        return gender;
     }
 
     public String getFirst_name() {

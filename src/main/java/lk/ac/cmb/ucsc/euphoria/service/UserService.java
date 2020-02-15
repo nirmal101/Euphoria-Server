@@ -31,7 +31,10 @@ public class UserService {
     private CounselorRequestRepository counselorRequestRepository;
     @Autowired
     private PostRepository postRepository;
+    @Autowired
+    private EmailService emailService;
 
+    private String link="http://localhost:3000/user/verifyaccount";
 
     public Post addPost(PostDTO postdto) {
         System.out.println("came to posting");
@@ -79,6 +82,11 @@ public class UserService {
 
             Password temp=new Password(user.getEmail(),user.getPassword(),"Patient");
             Password pw=passwordRepository.save(temp);
+
+            //verification
+            emailService.sendSimpleMessage(user.getEmail(),"Welcome to Euphoria","Please click the following link to verify your account \n"+link+"/"+user.getEmail());
+
+            user.setActivated("no");
             User us=userRepository.save(user);
             if (pw == null & us==null) {
                 return false;
@@ -95,24 +103,32 @@ public class UserService {
     }
 
     //can use this later when the user decides to  fill in the formal data
-    public boolean formalSignUp(User user) {
+    public boolean
+    formalSignUp(User user) {
         Optional<Password> existing= passwordRepository.findById(user.getEmail());
+
         if(existing.isEmpty()){
             Password temp=new Password(user.getEmail(),user.getPassword(),"User");
             Password pw=passwordRepository.save(temp);
-            User us=userRepository.save(user);
-            if (pw == null & us==null) {
+
+            if(pw==null){
                 return false;
-
-            }else{
-                return true;
             }
+            //verification
+            emailService.sendSimpleMessage(user.getEmail(),"Welcome to Euphoria","Please click the following link to verify your account \n"+link+"/"+user.getEmail());
+
+        }
 
 
+        user.setActivated("yes");
+        User us=userRepository.save(user);
+        if ( us==null) {
+            return false;
 
         }else{
-            return false;
+            return true;
         }
+
     }
 
     public List<Counselor> getCounselors() {
@@ -196,5 +212,16 @@ public class UserService {
             return diff2==1 ? diff2+ " hour ago":diff2+" hours ago";
         }
         return diff==1 ? diff+ " day ago":diff+" days ago";
+    }
+
+    public void verifyAccount(String email) {
+        List<User> user=userRepository.findByEmail(email);
+        User us=user.get(0);
+        if(us!=null){
+            us.setActivated("yes");
+            userRepository.save(us);
+        }else{
+            System.out.println("user does not exist");
+        }
     }
 }
