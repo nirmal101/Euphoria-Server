@@ -1,43 +1,30 @@
-package lk.ac.cmb.ucsc.euphoria.model.counselor;
+package lk.ac.cmb.ucsc.euphoria.dto;
 
-import lk.ac.cmb.ucsc.euphoria.model.common.LoginCredentials;
-import lk.ac.cmb.ucsc.euphoria.model.common.SuperEntity;
-
-import javax.persistence.*;
-
-@Entity
-public class Counselor extends SuperEntity {
-
+public class CounselorDTO {
     private String name;
-
-    @Column(length = 500)
     private String description;
-
     private String specialty;
-
     private String hospital;
-
     private String city;
-
     private String photoUrl;
+    private String password;
+    private String email;
 
-    @OneToOne
-    private LoginCredentials loginCredentials;
 
-    public Counselor() {}
+    public CounselorDTO() {
+    }
 
-    public Counselor(String name, String description, String specialty, String hospital, String city, String photoUrl) {
+    public CounselorDTO(String name, String description, String specialty, String hospital, String city, String photoUrl, String password, String email) {
         this.name = name;
         this.description = description;
         this.specialty = specialty;
         this.hospital = hospital;
         this.city = city;
         this.photoUrl = photoUrl;
+        this.password = password;
+        this.email = email;
     }
 
-    public Counselor(Long id) {
-        super(id);
-    }
 
     public String getName() {
         return name;
@@ -87,11 +74,33 @@ public class Counselor extends SuperEntity {
         this.photoUrl = photoUrl;
     }
 
-    public LoginCredentials getLoginCredentials() {
-        return loginCredentials;
+    public String getPassword() {
+        return password;
     }
 
-    public void setLoginCredentials(LoginCredentials loginCredentials) {
-        this.loginCredentials = loginCredentials;
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    @Override
+    public String toString() {
+        return "CounselorDTO{" +
+                "name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", specialty='" + specialty + '\'' +
+                ", hospital='" + hospital + '\'' +
+                ", city='" + city + '\'' +
+                ", photoUrl='" + photoUrl + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                '}';
     }
 }

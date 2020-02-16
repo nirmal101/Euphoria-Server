@@ -12,7 +12,9 @@ import lk.ac.cmb.ucsc.euphoria.model.PatientRecords;
 import lk.ac.cmb.ucsc.euphoria.model.common.LoginCredentials;
 import lk.ac.cmb.ucsc.euphoria.repository.AppointmentRepository;
 import lk.ac.cmb.ucsc.euphoria.repository.CounselorRepository;
+import lk.ac.cmb.ucsc.euphoria.repository.LoginCredentialRepository;
 import lk.ac.cmb.ucsc.euphoria.repository.PatientRecordsRepository;
+import org.checkerframework.checker.units.qual.C;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +36,9 @@ public class CounselorService {
     @Autowired
     private PatientRecordsRepository patientRecordsRepository;
 
+    @Autowired
+    private LoginCredentialRepository loginCredentialRepository;
+
     public LoginCredentials signIn(LoginCredentials loginCredentials) {
         LOGGER.info(loginCredentials.getUsername()+" "+loginCredentials.getPassword());
         return isExistCounselor(loginCredentials);
@@ -46,9 +51,25 @@ public class CounselorService {
     }
 
     public Counselor signUp(CounselorDTO counselorDTO) {
-        System.out.println(counselorDTO);
-        return null;
-//        return counselorRepository.save(counselor);
+
+
+        LoginCredentials loginCredentials = new LoginCredentials();
+        loginCredentials.setUsername(counselorDTO.getName());
+        loginCredentials.setEmail(counselorDTO.getEmail());
+        loginCredentials.setPassword(counselorDTO.getPassword());
+
+        LoginCredentials loginDetails = loginCredentialRepository.save(loginCredentials);
+
+        Counselor counselor = new Counselor();
+        counselor.setName(counselorDTO.getName());
+        counselor.setCity(counselorDTO.getCity());
+        counselor.setDescription(counselorDTO.getDescription());
+        counselor.setHospital(counselorDTO.getHospital());
+        counselor.setPhotoUrl(counselorDTO.getPhotoUrl());
+        counselor.setSpecialty(counselorDTO.getSpecialty());
+        counselor.setLoginCredentials(loginCredentials);
+
+        return counselorRepository.save(counselor);
     }
 
 
