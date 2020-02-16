@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.TableGenerator;
 import java.util.List;
+import java.util.Optional;
 
 //CrudRepository <EntityName, PrimaryKeyType>
 public interface AdminRepository extends CrudRepository<Admin, Long> {

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.Optional;
 
 @RequestMapping("api/admin")
 @RestController
@@ -41,11 +42,22 @@ public class AdminController {
 
     @CrossOrigin
     @PostMapping(path="/addAdmin", consumes="application/json")
-    public void addAdmin(@RequestBody @NotNull Admin admin   ){
+    public void addAdmin(@RequestBody @NotNull Admin admin){
         System.out.println("came to the server");
         System.out.println(admin.getAdminUsername());
         adminService.addAdmin(admin);
+    }
 
+    @GetMapping(path="/viewAdmin/{id}")
+    @CrossOrigin
+    public Optional<Admin> viewAdmin(@PathVariable("id") long adminID){
+        return adminService.viewAdmin(adminID);
+    }
+
+    @CrossOrigin
+    @PostMapping(path="/updateAdmin", consumes="application/json")
+    public void updateAdmin(@RequestBody Admin admin){
+        adminService.updateAdmin(admin);
     }
 
     //*********************************************************USERS*********************************************************
@@ -61,11 +73,30 @@ public class AdminController {
         return adminService.getQuickUsers();
     }
 
+
+    @GetMapping(path="/getRegisteredUsers")
+    @CrossOrigin
+    public String getRegisteredUsers(){
+        return adminService.getRegisteredUsers();
+    }
+
+    @GetMapping(path="/getOnlineUsers")
+    @CrossOrigin
+    public String getOnlineUsers(){
+        return adminService.getOnlineUsers();
+    }
+
     //*****************************************************COUNSELORS*****************************************************
     @GetMapping(path="/getCounselors", produces = "application/json")
     @CrossOrigin
     public List<Counselor> getCounselors(){
 
         return adminService.getCounselors();
+    }
+
+    @GetMapping(path="/getRegisteredCounselors")
+    @CrossOrigin
+    public String getRegisteredCounselors(){
+        return adminService.getRegisteredCounselors();
     }
 }

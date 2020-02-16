@@ -51,6 +51,14 @@ public class AdminService {
         passwordRepository.save(pw);
     }
 
+    public Optional<Admin> viewAdmin(long adminID){
+        return adminRepository.findById(adminID);
+    }
+
+    public void updateAdmin(Admin admin){
+        adminRepository.save(admin);
+    }
+
     //**************************************************User Repository*************************************************
     public List<User> getFormalUsers(){
         Iterable<User> all = userRepository.findByAccountType("formal");
@@ -66,11 +74,25 @@ public class AdminService {
         return quickUserList;
     }
 
+    public String getRegisteredUsers(){
+        return Long.toString(userRepository.count());
+    }
+
+    public String getOnlineUsers(){
+        List<User> onlineUsers = userRepository.findByStatus("online");
+        long count = onlineUsers.size();
+        return Long.toString(count);
+    }
+
     //***********************************************Counselor Repository***********************************************
     public List<Counselor> getCounselors() {
         Iterable<Counselor> all = counselorRepository.findAll();
         List<Counselor> counselorList = new ArrayList<Counselor>();
         all.forEach(counselorList::add);
         return counselorList;
+    }
+
+    public String getRegisteredCounselors(){
+        return Long.toString(counselorRepository.count());
     }
 }
