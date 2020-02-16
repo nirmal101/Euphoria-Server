@@ -1,5 +1,6 @@
 package lk.ac.cmb.ucsc.euphoria.controller;
 
+import lk.ac.cmb.ucsc.euphoria.dto.CounselorDTO;
 import lk.ac.cmb.ucsc.euphoria.model.Appointment;
 import lk.ac.cmb.ucsc.euphoria.model.counselor.Counselor;
 import lk.ac.cmb.ucsc.euphoria.model.PatientRecords;
@@ -25,8 +26,8 @@ public class CounselorController {
 
     @CrossOrigin
     @PostMapping(path = "/sign-up", consumes = "application/json", produces = "application/json")
-    public Counselor counselorSignUp(@RequestBody Counselor counselor) {
-        return counselorService.signUp(counselor);
+    public Counselor counselorSignUp(@RequestBody CounselorDTO counselordto) {
+        return counselorService.signUp(counselordto);
     }
 
     @CrossOrigin

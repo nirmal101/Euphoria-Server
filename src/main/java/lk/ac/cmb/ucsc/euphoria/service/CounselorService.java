@@ -5,6 +5,7 @@ package lk.ac.cmb.ucsc.euphoria.service;
 
 import com.google.common.collect.Lists;
 import lk.ac.cmb.ucsc.euphoria.EuphoriaApplication;
+import lk.ac.cmb.ucsc.euphoria.dto.CounselorDTO;
 import lk.ac.cmb.ucsc.euphoria.model.Appointment;
 import lk.ac.cmb.ucsc.euphoria.model.counselor.Counselor;
 import lk.ac.cmb.ucsc.euphoria.model.PatientRecords;
@@ -39,16 +40,15 @@ public class CounselorService {
     }
 
     private LoginCredentials isExistCounselor(LoginCredentials loginCredentials) {
-        List<LoginCredentials> existCounselorName = counselorRepository.findByName( loginCredentials.getUsername());
-        for (LoginCredentials l : existCounselorName) {
-            return (l.getUsername().equalsIgnoreCase(loginCredentials.getUsername()) && l.getPassword().equalsIgnoreCase(loginCredentials.getPassword())) ?
-                    l : null;
-        }
+        List<Counselor> existCounselorName = counselorRepository.findByName( loginCredentials.getUsername());
+
         return null;
     }
 
-    public Counselor signUp(Counselor counselor) {
-        return counselorRepository.save(counselor);
+    public Counselor signUp(CounselorDTO counselorDTO) {
+        System.out.println(counselorDTO);
+        return null;
+//        return counselorRepository.save(counselor);
     }
 
 
