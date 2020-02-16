@@ -1,35 +1,32 @@
 package lk.ac.cmb.ucsc.euphoria.model;
 
+import lk.ac.cmb.ucsc.euphoria.model.common.SuperEntity;
+import lk.ac.cmb.ucsc.euphoria.model.counselor.Counselor;
+import net.minidev.json.JSONObject;
+import org.hibernate.annotations.Type;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.Id;
-import java.util.Date;
+import javax.persistence.ManyToOne;
 
 @Entity
-public class PatientRecords {
-    @Id
-    private long record_id;
-    private Date submittedDate;
+public class PatientRecords extends SuperEntity {
+
     private String title;
-    private String description;
-    private String prescription;
+
+    @ManyToOne(cascade = CascadeType.DETACH)
+    private Counselor counselor;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    private User user;
+
+    @Type(type = "json")
+    private JSONObject description;
+
+    @Type(type = "json")
+    private JSONObject prescription;
 
     public PatientRecords() {
-    }
-
-    public long getRecord_id() {
-        return record_id;
-    }
-
-    public void setRecord_id(long record_id) {
-        this.record_id = record_id;
-    }
-
-    public Date getSubmittedDate() {
-        return submittedDate;
-    }
-
-    public void setSubmittedDate(Date submittedDate) {
-        this.submittedDate = submittedDate;
     }
 
     public String getTitle() {
@@ -40,19 +37,35 @@ public class PatientRecords {
         this.title = title;
     }
 
-    public String getDescription() {
+    public Counselor getCounselor() {
+        return counselor;
+    }
+
+    public void setCounselor(Counselor counselor) {
+        this.counselor = counselor;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public JSONObject getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
+    public void setDescription(JSONObject description) {
         this.description = description;
     }
 
-    public String getPrescription() {
+    public JSONObject getPrescription() {
         return prescription;
     }
 
-    public void setPrescription(String prescription) {
+    public void setPrescription(JSONObject prescription) {
         this.prescription = prescription;
     }
 }
