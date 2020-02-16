@@ -1,6 +1,10 @@
 package lk.ac.cmb.ucsc.euphoria.model.common;
 
+import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
+import com.vladmihalcea.hibernate.type.json.JsonStringType;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.TypeDef;
+import org.hibernate.annotations.TypeDefs;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.GeneratedValue;
@@ -9,10 +13,14 @@ import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import java.time.LocalDateTime;
 
+@TypeDefs({
+        @TypeDef(name = "json", typeClass = JsonStringType.class),
+        @TypeDef(name = "jsonb", typeClass = JsonBinaryType.class)
+})
 @MappedSuperclass
 public class SuperEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @CreationTimestamp
