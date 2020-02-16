@@ -39,15 +39,15 @@ public class AuthenticationController {
     public ResponseEntity<?> createAuthenticationToken(@RequestBody LoginCredentials credentials) throws Exception{
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(credentials.getUsername(), credentials.getPassword()));
-        }catch (BadCredentialsException e){
-            throw new Exception("Invalid username or password",e);
+        } catch (BadCredentialsException e) {
+            throw new Exception("Invalid username or password", e);
         }
 
         final UserDetails userDetails = loginService.loadUserByUsername(credentials.getUsername());
         final String jwt = jwtUtil.generateToken(userDetails);
 
-        Map<String,String> jwtMap=new HashMap<>(1);
-        jwtMap.put("jwt",jwt);
+        Map<String, String> jwtMap = new HashMap<>(1);
+        jwtMap.put("jwt", jwt);
 
         return ResponseEntity.ok(jwtMap);
     }
