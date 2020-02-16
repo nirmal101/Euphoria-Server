@@ -6,6 +6,7 @@ import lk.ac.cmb.ucsc.euphoria.dto.PasswordChangeDTO;
 import lk.ac.cmb.ucsc.euphoria.dto.PostDTO;
 import lk.ac.cmb.ucsc.euphoria.model.*;
 import lk.ac.cmb.ucsc.euphoria.service.EmailService;
+import lk.ac.cmb.ucsc.euphoria.model.counselor.Counselor;
 import lk.ac.cmb.ucsc.euphoria.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

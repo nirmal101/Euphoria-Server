@@ -1,6 +1,7 @@
 package lk.ac.cmb.ucsc.euphoria.model;
 
 
+import lk.ac.cmb.ucsc.euphoria.model.common.SuperEntity;
 import org.hibernate.annotations.Formula;
 
 import javax.persistence.*;
@@ -10,12 +11,8 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
+public class Post extends SuperEntity {
 
-public class Post {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private  long post_id;
     private  String post_title;
     @Size(max=1000)
     private String post_description;
@@ -59,10 +56,6 @@ public class Post {
 
     public void setPost_title(String post_title) {
         this.post_title = post_title;
-    }
-
-    public long getPost_id() {
-        return post_id;
     }
 
     public String getPost_description() {
