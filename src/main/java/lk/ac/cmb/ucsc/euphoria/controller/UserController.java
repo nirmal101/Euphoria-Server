@@ -2,8 +2,10 @@ package lk.ac.cmb.ucsc.euphoria.controller;
 
 import lk.ac.cmb.ucsc.euphoria.dto.CommentDTO;
 import lk.ac.cmb.ucsc.euphoria.dto.CounselorRequestDTO;
+import lk.ac.cmb.ucsc.euphoria.dto.PasswordChangeDTO;
 import lk.ac.cmb.ucsc.euphoria.dto.PostDTO;
 import lk.ac.cmb.ucsc.euphoria.model.*;
+import lk.ac.cmb.ucsc.euphoria.service.EmailService;
 import lk.ac.cmb.ucsc.euphoria.model.counselor.Counselor;
 import lk.ac.cmb.ucsc.euphoria.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @RequestMapping("api/user")
@@ -20,13 +23,12 @@ import java.util.List;
 public class UserController {
 
     @Autowired
-    private final UserService userService;
+    private  UserService userService;
+    @Autowired
+    private  EmailService emailService;
+
+
     private Boolean value=false;
-
-
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
 
     @PostMapping(path = "/counselorrequest", consumes = "application/json", produces = "application/json")
     @CrossOrigin
@@ -66,7 +68,7 @@ public class UserController {
 
     @PostMapping(path = "/quicksignup", consumes = "application/json", produces = "application/json")
     @CrossOrigin
-    public ResponseEntity<Boolean> quickSignUp(@RequestBody @Valid @NonNull User user) {
+    public ResponseEntity<Boolean> quickSignUp(@RequestBody  User user) {
 
         System.out.println("came to the server");
         try{
@@ -82,7 +84,7 @@ public class UserController {
     }
     @PostMapping(path = "/formalsignup", consumes = "application/json", produces = "application/json")
     @CrossOrigin
-    public ResponseEntity<Boolean> formalSignUp(@RequestBody @Valid @NonNull User user) {
+    public ResponseEntity<Boolean> formalSignUp(@RequestBody User user) {
 
         System.out.println("came to the server");
         try{
@@ -145,4 +147,43 @@ public class UserController {
         System.out.println("Get counselors");
         return userService.getPosts();
     }
+
+    @PostMapping(path = "/verifyaccount/{email}", consumes = "application/json", produces = "application/json")
+    @CrossOrigin
+    public void verifyAccount(@PathVariable("email") String email) {
+        System.out.println(email);
+        userService.verifyAccount(email);
+
+
+    }
+    @GetMapping(path = "/getuser/{uid}" ,produces = "application/json")
+    @CrossOrigin
+    public User getUser(@PathVariable("uid")long id) {
+        System.out.println("Get counselors");
+        return userService.getUser(id);
+    }
+
+    @PostMapping(path = "/updateuser", consumes = "application/json", produces = "application/json")
+    @CrossOrigin
+    public User updateUser(@RequestBody User user) {
+
+        return userService.updateUser(user);
+
+    }
+    @PostMapping(path = "/changepassword", consumes = "application/json", produces = "application/json")
+    @CrossOrigin
+    public Password changePassword(@RequestBody PasswordChangeDTO pw) {
+
+        return userService.changePassword(pw);
+
+    }
+    @GetMapping(path = "/getrequests", produces = "application/json")
+    @CrossOrigin
+    public List<CounselorRequest> getRequests() {
+        System.out.println("Get counselors");
+        return userService.getRequests();
+    }
+
+
+
 }

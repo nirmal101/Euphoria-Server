@@ -2,6 +2,7 @@ package lk.ac.cmb.ucsc.euphoria.service;
 
 import lk.ac.cmb.ucsc.euphoria.dto.CommentDTO;
 import lk.ac.cmb.ucsc.euphoria.dto.CounselorRequestDTO;
+import lk.ac.cmb.ucsc.euphoria.dto.PasswordChangeDTO;
 import lk.ac.cmb.ucsc.euphoria.dto.PostDTO;
 import lk.ac.cmb.ucsc.euphoria.model.*;
 import lk.ac.cmb.ucsc.euphoria.model.counselor.Counselor;
@@ -32,23 +33,25 @@ public class UserService {
     private AppointmentRequestRepository counselorRequestRepository;
     @Autowired
     private PostRepository postRepository;
+    @Autowired
+    private EmailService emailService;
 
+    private String link="http://localhost:3000/user/verifyaccount";
 
     public Post addPost(PostDTO postdto) {
         System.out.println("came to posting");
-        User user=userRepository.findById(postdto.getUser_id()).get();
+        User user = userRepository.findById(postdto.getUser_id()).get();
 
 
-        List<PostEmotionTag> emotionTags=new ArrayList<>();
-        postdto.getEmotion_tags().forEach((tag)->{
+        List<PostEmotionTag> emotionTags = new ArrayList<>();
+        postdto.getEmotion_tags().forEach((tag) -> {
             System.out.println(tag);
             emotionTags.add(new PostEmotionTag(tag));
         });
 
-        Post post=new Post(postdto.getPost_title(),postdto.getPost_description(),user,emotionTags);
+        Post post = new Post(postdto.getPost_title(), postdto.getPost_description(), user, emotionTags);
 
         return postRepository.save(post);
-
 
     }
     public void addRequest(Request request){
@@ -80,6 +83,11 @@ public class UserService {
 
             Password temp=new Password(user.getEmail(),user.getPassword(),"Patient");
             Password pw=passwordRepository.save(temp);
+
+            //verification
+            emailService.sendSimpleMessage(user.getEmail(),"Welcome to Euphoria","Please click the following link to verify your account \n"+link+"/"+user.getEmail());
+
+            user.setActivated("no");
             User us=userRepository.save(user);
             if (pw == null & us==null) {
                 return false;
@@ -96,24 +104,32 @@ public class UserService {
     }
 
     //can use this later when the user decides to  fill in the formal data
-    public boolean formalSignUp(User user) {
+    public boolean
+    formalSignUp(User user) {
         Optional<Password> existing= passwordRepository.findById(user.getEmail());
+
         if(existing.isEmpty()){
             Password temp=new Password(user.getEmail(),user.getPassword(),"User");
             Password pw=passwordRepository.save(temp);
-            User us=userRepository.save(user);
-            if (pw == null & us==null) {
+
+            if(pw==null){
                 return false;
-
-            }else{
-                return true;
             }
+            //verification
+            emailService.sendSimpleMessage(user.getEmail(),"Welcome to Euphoria","Please click the following link to verify your account \n"+link+"/"+user.getEmail());
+
+        }
 
 
+        user.setActivated("yes");
+        User us=userRepository.save(user);
+        if ( us==null) {
+            return false;
 
         }else{
-            return false;
+            return true;
         }
+
     }
 
     public List<Counselor> getCounselors() {
@@ -121,6 +137,13 @@ public class UserService {
         List<Counselor> counselorList=new ArrayList<Counselor>();
         all.forEach(counselorList::add );
         return counselorList;
+    }
+
+    public List<User> getUsers(){
+        Iterable<User> all = userRepository.findAll();
+        List<User> userList = new ArrayList<User>();
+        all.forEach(userList::add);
+        return userList;
     }
 
     public ResponseEntity<Boolean> requestCounselor(@Valid CounselorRequestDTO counselorRequest) {
@@ -135,7 +158,9 @@ public class UserService {
         id.setCounselor(counselor);
         id.setUser(user);
 
-        AppointmentRequest temp = counselorRequestRepository.save(new AppointmentRequest(id,counselorRequest.getRequest_description()));
+        AppointmentRequest new_request=new AppointmentRequest(id,counselorRequest.getRequest_description());
+        new_request.setAppointmentStatus("pending");
+        AppointmentRequest temp = counselorRequestRepository.save(new_request);
         if(temp!=null){
             return ResponseEntity.ok(true);
         }else{
@@ -197,5 +222,45 @@ public class UserService {
             return diff2==1 ? diff2+ " hour ago":diff2+" hours ago";
         }
         return diff==1 ? diff+ " day ago":diff+" days ago";
+    }
+
+    public void verifyAccount(String email) {
+        List<User> user=userRepository.findByEmail(email);
+        User us=user.get(0);
+        if(us!=null){
+            us.setActivated("yes");
+            userRepository.save(us);
+        }else{
+            System.out.println("user does not exist");
+        }
+    }
+
+    public User getUser(long id) {
+        return userRepository.findById(id).get();
+    }
+
+    public User updateUser(User user) {
+        List<User> list=userRepository.findByEmail(user.getEmail());
+        User temp=list.get(0);
+        user.setUid(temp.getUid());
+        user.setTimestamp(new Date());
+        return userRepository.save(user);
+    }
+
+    public Password changePassword(PasswordChangeDTO pw) {
+        List<Password> list=passwordRepository.findByEmail(pw.getEmail());
+        String pwd=list.get(0).getPassword();
+        if(pwd.equals(pw.getOldPassword())){
+            if(pw.getNewPassword().equals(pw.getOldPassword())){
+                Password new_pw=list.get(0);
+                new_pw.setPassword(pw.getNewPassword());
+                return passwordRepository.save(new_pw);
+            }
+        }
+        return null;
+    }
+
+    public List<CounselorRequest> getRequests() {
+        return (List<CounselorRequest>) counselorRequestRepository.findAll();
     }
 }

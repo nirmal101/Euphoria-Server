@@ -13,4 +13,12 @@ public interface UserRepository extends CrudRepository<User,Long> {
 //    public List<User> find(@Param("user_email") String user_email);
 
       public List<User> findByEmail(String email);
+
+
+      //Admin methods
+      @Query(value="SELECT* FROM User WHERE Account_Type=?1", nativeQuery=true)
+      public List<User> findByAccountType(String type);
+
+      public List<User> findByStatus(String status);
+
 }
