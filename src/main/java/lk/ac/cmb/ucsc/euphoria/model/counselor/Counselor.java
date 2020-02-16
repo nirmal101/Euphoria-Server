@@ -21,10 +21,11 @@ public class Counselor extends SuperEntity {
 
     private String photoUrl;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private LoginCredentials loginCredentials;
 
-    public Counselor() {}
+    public Counselor() {
+    }
 
     public Counselor(String name, String description, String specialty, String hospital, String city, String photoUrl) {
         this.name = name;
@@ -34,6 +35,29 @@ public class Counselor extends SuperEntity {
         this.city = city;
         this.photoUrl = photoUrl;
     }
+
+    public Counselor(String name, String description, String specialty, String hospital, String city, String photoUrl,
+                     LoginCredentials loginCredentials) {
+        this.name = name;
+        this.description = description;
+        this.specialty = specialty;
+        this.hospital = hospital;
+        this.city = city;
+        this.photoUrl = photoUrl;
+        this.loginCredentials = loginCredentials;
+    }
+
+    public Counselor(String name, String description, String specialty, String hospital, String city, String photoUrl,
+                     String email, String username, String password) {
+        this.name = name;
+        this.description = description;
+        this.specialty = specialty;
+        this.hospital = hospital;
+        this.city = city;
+        this.photoUrl = photoUrl;
+        this.loginCredentials = new LoginCredentials(username,password,email);
+    }
+
 
     public Counselor(Long id) {
         super(id);
@@ -85,5 +109,13 @@ public class Counselor extends SuperEntity {
 
     public void setPhotoUrl(String photoUrl) {
         this.photoUrl = photoUrl;
+    }
+
+    public LoginCredentials getLoginCredentials() {
+        return loginCredentials;
+    }
+
+    public void setLoginCredentials(LoginCredentials loginCredentials) {
+        this.loginCredentials = loginCredentials;
     }
 }

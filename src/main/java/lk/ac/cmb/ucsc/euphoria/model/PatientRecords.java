@@ -6,6 +6,7 @@ import net.minidev.json.JSONObject;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 
@@ -21,9 +22,11 @@ public class PatientRecords extends SuperEntity {
     private User user;
 
     @Type(type = "json")
+    @Column(columnDefinition = "json")
     private JSONObject description;
 
     @Type(type = "json")
+    @Column(columnDefinition = "json")
     private JSONObject prescription;
 
     public PatientRecords() {
