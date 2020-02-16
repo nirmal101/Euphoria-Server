@@ -13,6 +13,7 @@ import lk.ac.cmb.ucsc.euphoria.repository.AppointmentRequestRepository;
 import lk.ac.cmb.ucsc.euphoria.repository.CounselorRepository;
 import lk.ac.cmb.ucsc.euphoria.repository.PatientRecordsRepository;
 import lk.ac.cmb.ucsc.euphoria.repository.UserRepository;
+import lk.ac.cmb.ucsc.euphoria.util.ActiveUsersUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,7 @@ import java.util.Optional;
 
 @Service
 public class CounselorService {
-    private static final Logger LOGGER= LoggerFactory.getLogger(CounselorService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CounselorService.class);
 
     @Autowired
     private CounselorRepository counselorRepository;
@@ -42,30 +43,29 @@ public class CounselorService {
     @Autowired
     private UserRepository userRepository;
 
-    private Counselor getAuthenticatedCounselor(){
-        Object principal=SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    @Autowired
+    private ActiveUsersUtil activeUsersUtil;
+
+    private Counselor getAuthenticatedCounselor() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username;
-        if (principal instanceof UserDetails){
-            username = ((UserDetails)principal).getUsername();
-        }else{
-            username = (String)principal;
+        if (principal instanceof UserDetails) {
+            username = ((UserDetails) principal).getUsername();
+        } else {
+            username = (String) principal;
         }
 
-        Optional<Counselor> counselor=counselorRepository.findByLoginCredentials_Username(username);
+        Optional<Counselor> counselor = counselorRepository.findByLoginCredentials_Username(username);
         counselor.orElseThrow(() -> new BadCredentialsException("Invalid logged in user detected"));
         return counselor.get();
     }
 
     public List<AppointmentRequest> getAppointments(String status) {
         ArrayList<AppointmentRequest> appointmentsList = null;
-        if (status==null || status.equals(""))
-             appointmentsList = Lists.newArrayList(appointmentRequestRepository.findAll());
+        AppointmentStatus appointmentStatus = AppointmentStatus.valueOf(status);
+        Counselor authenticatedCounselor = getAuthenticatedCounselor();
 
-        AppointmentStatus appointmentStatus=AppointmentStatus.valueOf(status);
-
-        Counselor authenticatedCounselor=getAuthenticatedCounselor();
-
-        switch (appointmentStatus){
+        switch (appointmentStatus) {
             case PENDING:
             case ONGOING:
             case COMPLETED: {
@@ -85,12 +85,23 @@ public class CounselorService {
     }
 
     public List<PatientRecords> getPatientRecords(long patient) {
-        Optional<User> user=userRepository.findById(patient);
+        Optional<User> user = userRepository.findById(patient);
+        user.orElseThrow(() -> new EntityNotFoundException("No such user with ID: " + patient));
+        return Lists.newArrayList(patientRecordsRepository.findByUserAndCounselor(user.get(), getAuthenticatedCounselor()));
+    }
 
-        user.orElseThrow(() -> new EntityNotFoundException("No such user with ID: "+patient));
-
-        return Lists.newArrayList(patientRecordsRepository.findByUserAndCounselor(user.get(),getAuthenticatedCounselor()));
+    public void newPatientRecord(PatientRecords record) {
+        patientRecordsRepository.save(record);
     }
 
 //    public boolean
+    public List<Counselor> getActiveCounselors(){
+        List<String> allActive = activeUsersUtil.getStore();
+        return counselorRepository.findAllByLoginCredentials_UsernameIn(allActive);
+    }
+
+    public boolean signUp(Counselor counselor) {
+        counselorRepository.save(counselor);
+        return true;
+    }
 }

@@ -13,4 +13,6 @@ public interface CounselorRepository extends CrudRepository<Counselor,Long> {
     public Optional<Counselor> findByLoginCredentials(LoginCredentials credential);
 
     public Optional<Counselor> findByLoginCredentials_Username(String username);
+
+    List<Counselor> findAllByLoginCredentials_UsernameIn(List<String> allActive);
 }

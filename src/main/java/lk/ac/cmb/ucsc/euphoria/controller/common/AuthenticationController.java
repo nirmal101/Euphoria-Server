@@ -1,12 +1,9 @@
 package lk.ac.cmb.ucsc.euphoria.controller.common;
 
-import io.jsonwebtoken.Jws;
 import lk.ac.cmb.ucsc.euphoria.model.common.LoginCredentials;
-import lk.ac.cmb.ucsc.euphoria.service.CounselorService;
 import lk.ac.cmb.ucsc.euphoria.service.LoginService;
+import lk.ac.cmb.ucsc.euphoria.util.ActiveUsersUtil;
 import lk.ac.cmb.ucsc.euphoria.util.JwtUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -35,6 +32,9 @@ public class AuthenticationController {
     @Autowired
     private JwtUtil jwtUtil;
 
+    @Autowired
+    private ActiveUsersUtil activeUsersUtil;
+
     @PostMapping
     public ResponseEntity<?> createAuthenticationToken(@RequestBody LoginCredentials credentials) throws Exception{
         try {
@@ -46,8 +46,11 @@ public class AuthenticationController {
         final UserDetails userDetails = loginService.loadUserByUsername(credentials.getUsername());
         final String jwt = jwtUtil.generateToken(userDetails);
 
-        Map<String, String> jwtMap = new HashMap<>(1);
-        jwtMap.put("jwt", jwt);
+//        Crazy hack to maintain Logged users. Not suitable in production env
+        activeUsersUtil.add(userDetails.getUsername());
+
+        Map<String,String> jwtMap=new HashMap<>(1);
+        jwtMap.put("jwt",jwt);
 
         return ResponseEntity.ok(jwtMap);
     }

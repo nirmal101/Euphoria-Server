@@ -31,11 +31,11 @@ public class CounselorController {
 //        return counselorService.signIn(loginCredentials);
 //    }
 //
-//    @CrossOrigin
-//    @PostMapping(path = "/sign-up", consumes = "application/json", produces = "application/json")
-//    public Counselor counselorSignUp(@RequestBody Counselor counselor) {
-//        return counselorService.signUp(counselor);
-//    }
+    @CrossOrigin
+    @PostMapping(path = "/sign-up", consumes = "application/json", produces = "application/json")
+    public boolean counselorSignUp(@RequestBody Counselor counselor) {
+        return counselorService.signUp(counselor);
+    }
 //
 //    @CrossOrigin
 //    @PostMapping(path = "/reset-password", consumes = "application/json", produces = "application/json")
@@ -57,9 +57,11 @@ public class CounselorController {
 
     @CrossOrigin
     @PostMapping(path = "/patient-records", produces = "application/json")
-    public void newPatientRecord(@PathVariable PatientRecords records) {
-//        return counselorService.newPatientRecord(user);
+    public void newPatientRecord(@PathVariable PatientRecords record) {
+        counselorService.newPatientRecord(record);
     }
+
+
 
 //    @CrossOrigin
 //    @GetMapping
