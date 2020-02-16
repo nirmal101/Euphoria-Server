@@ -35,19 +35,18 @@ public class UserService {
 
     public Post addPost(PostDTO postdto) {
         System.out.println("came to posting");
-        User user=userRepository.findById(postdto.getUser_id()).get();
+        User user = userRepository.findById(postdto.getUser_id()).get();
 
 
-        List<PostEmotionTag> emotionTags=new ArrayList<>();
-        postdto.getEmotion_tags().forEach((tag)->{
+        List<PostEmotionTag> emotionTags = new ArrayList<>();
+        postdto.getEmotion_tags().forEach((tag) -> {
             System.out.println(tag);
             emotionTags.add(new PostEmotionTag(tag));
         });
 
-        Post post=new Post(postdto.getPost_title(),postdto.getPost_description(),user,emotionTags);
+        Post post = new Post(postdto.getPost_title(), postdto.getPost_description(), user, emotionTags);
 
         return postRepository.save(post);
-
 
     }
     public void addRequest(Request request){
@@ -120,6 +119,13 @@ public class UserService {
         List<Counselor> counselorList=new ArrayList<Counselor>();
         all.forEach(counselorList::add );
         return counselorList;
+    }
+
+    public List<User> getUsers(){
+        Iterable<User> all = userRepository.findAll();
+        List<User> userList = new ArrayList<User>();
+        all.forEach(userList::add);
+        return userList;
     }
 
     public ResponseEntity<Boolean> requestCounselor(@Valid CounselorRequestDTO counselorRequest) {

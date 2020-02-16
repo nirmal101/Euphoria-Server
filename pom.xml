@@ -84,8 +84,6 @@
             <version>5.4.9.Final</version>
         </dependency>
 
-    </dependencies>
-
 
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
