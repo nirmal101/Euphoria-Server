@@ -1,6 +1,9 @@
 package lk.ac.cmb.ucsc.euphoria.filter;
 
+import lk.ac.cmb.ucsc.euphoria.service.CounselorService;
 import lk.ac.cmb.ucsc.euphoria.util.JwtUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -28,6 +31,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     protected void doFilterInternal(
             HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain)
             throws ServletException, IOException {
+
         final String authorizationHeader = httpServletRequest.getHeader("Authorization");
 
         String username = null;

@@ -2,8 +2,11 @@ package lk.ac.cmb.ucsc.euphoria.controller.common;
 
 import io.jsonwebtoken.Jws;
 import lk.ac.cmb.ucsc.euphoria.model.common.LoginCredentials;
+import lk.ac.cmb.ucsc.euphoria.service.CounselorService;
 import lk.ac.cmb.ucsc.euphoria.service.LoginService;
 import lk.ac.cmb.ucsc.euphoria.util.JwtUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -32,8 +35,8 @@ public class AuthenticationController {
     @Autowired
     private JwtUtil jwtUtil;
 
-    @PostMapping("/")
-    public ResponseEntity<?> createAuthenticationToken(@RequestBody LoginCredentials credentials) throws Exception {
+    @PostMapping
+    public ResponseEntity<?> createAuthenticationToken(@RequestBody LoginCredentials credentials) throws Exception{
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(credentials.getUsername(), credentials.getPassword()));
         } catch (BadCredentialsException e) {
