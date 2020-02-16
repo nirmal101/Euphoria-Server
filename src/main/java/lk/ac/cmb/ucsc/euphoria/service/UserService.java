@@ -1,5 +1,6 @@
 package lk.ac.cmb.ucsc.euphoria.service;
 
+import lk.ac.cmb.ucsc.euphoria.constants.AppointmentStatus;
 import lk.ac.cmb.ucsc.euphoria.dto.CommentDTO;
 import lk.ac.cmb.ucsc.euphoria.dto.CounselorRequestDTO;
 import lk.ac.cmb.ucsc.euphoria.dto.PasswordChangeDTO;
@@ -30,7 +31,7 @@ public class UserService {
     @Autowired
     private CounselorRepository counselorRepository;
     @Autowired
-    private AppointmentRequestRepository counselorRequestRepository;
+    private AppointmentRequestRepository appointmentRequestRepository;
     @Autowired
     private PostRepository postRepository;
     @Autowired
@@ -159,8 +160,8 @@ public class UserService {
         id.setUser(user);
 
         AppointmentRequest new_request=new AppointmentRequest(id,counselorRequest.getRequest_description());
-        new_request.setAppointmentStatus("pending");
-        AppointmentRequest temp = counselorRequestRepository.save(new_request);
+        new_request.setStatus(AppointmentStatus.PENDING);
+        AppointmentRequest temp = appointmentRequestRepository.save(new_request);
         if(temp!=null){
             return ResponseEntity.ok(true);
         }else{
@@ -260,7 +261,7 @@ public class UserService {
         return null;
     }
 
-    public List<CounselorRequest> getRequests() {
-        return (List<CounselorRequest>) counselorRequestRepository.findAll();
+    public List<AppointmentRequest> getRequests() {
+        return (List<AppointmentRequest>) appointmentRequestRepository.findAll();
     }
 }
