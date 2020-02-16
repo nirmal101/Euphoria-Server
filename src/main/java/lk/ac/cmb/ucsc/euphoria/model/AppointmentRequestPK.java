@@ -14,20 +14,20 @@ public class AppointmentRequestPK implements Serializable {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn()
-    private Counselor counselor_id;
+    private Counselor counselor;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn
-    private User user_id;
+    private User user;
 
     @CreationTimestamp
     private LocalDateTime createdAt;
 
     public AppointmentRequestPK() {}
 
-    public AppointmentRequestPK(Counselor counselor_id, User user_id) {
-        this.counselor_id = counselor_id;
-        this.user_id = user_id;
+    public AppointmentRequestPK(Counselor counselor, User user_id) {
+        this.counselor = counselor;
+        this.user = user_id;
     }
 
     public LocalDateTime getCreatedAt() {
@@ -38,20 +38,20 @@ public class AppointmentRequestPK implements Serializable {
         this.createdAt = timestamp;
     }
 
-    public Counselor getCounselor_id() {
-        return counselor_id;
+    public Counselor getCounselor() {
+        return counselor;
     }
 
-    public void setCounselor_id(Counselor counselor_id) {
-        this.counselor_id = counselor_id;
+    public void setCounselor(Counselor counselor_id) {
+        this.counselor = counselor_id;
     }
 
-    public User getUser_id() {
-        return user_id;
+    public User getUser() {
+        return user;
     }
 
-    public void setUser_id(User user_id) {
-        this.user_id = user_id;
+    public void setUser(User user_id) {
+        this.user = user_id;
     }
 
     @Override
@@ -59,13 +59,13 @@ public class AppointmentRequestPK implements Serializable {
         if (this == o) return true;
         if (!(o instanceof AppointmentRequestPK)) return false;
         AppointmentRequestPK that = (AppointmentRequestPK) o;
-        return getCounselor_id().equals(that.getCounselor_id()) &&
-                getUser_id().equals(that.getUser_id()) &&
+        return getCounselor().equals(that.getCounselor()) &&
+                getUser().equals(that.getUser()) &&
                 getCreatedAt().equals(that.getCreatedAt());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getCounselor_id(), getUser_id(), getCreatedAt());
+        return Objects.hash(getCounselor(), getUser(), getCreatedAt());
     }
 }

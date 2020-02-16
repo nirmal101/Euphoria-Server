@@ -132,8 +132,8 @@ public class UserService {
         user.setUid(counselorRequest.getUser_id());
 
         AppointmentRequestPK id=new AppointmentRequestPK();
-        id.setCounselor_id(counselor);
-        id.setUser_id(user);
+        id.setCounselor(counselor);
+        id.setUser(user);
 
         AppointmentRequest temp = counselorRequestRepository.save(new AppointmentRequest(id,counselorRequest.getRequest_description()));
         if(temp!=null){

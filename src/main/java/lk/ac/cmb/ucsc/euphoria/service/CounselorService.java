@@ -4,24 +4,27 @@ package lk.ac.cmb.ucsc.euphoria.service;
 //import com.google.common.collect.Lists;
 
 import com.google.common.collect.Lists;
-import lk.ac.cmb.ucsc.euphoria.EuphoriaApplication;
-import lk.ac.cmb.ucsc.euphoria.dto.CounselorDTO;
-import lk.ac.cmb.ucsc.euphoria.model.Appointment;
-import lk.ac.cmb.ucsc.euphoria.model.counselor.Counselor;
+import lk.ac.cmb.ucsc.euphoria.constants.AppointmentStatus;
+import lk.ac.cmb.ucsc.euphoria.model.AppointmentRequest;
 import lk.ac.cmb.ucsc.euphoria.model.PatientRecords;
-import lk.ac.cmb.ucsc.euphoria.model.common.LoginCredentials;
-import lk.ac.cmb.ucsc.euphoria.repository.AppointmentRepository;
+import lk.ac.cmb.ucsc.euphoria.model.User;
+import lk.ac.cmb.ucsc.euphoria.model.counselor.Counselor;
+import lk.ac.cmb.ucsc.euphoria.repository.AppointmentRequestRepository;
 import lk.ac.cmb.ucsc.euphoria.repository.CounselorRepository;
-import lk.ac.cmb.ucsc.euphoria.repository.LoginCredentialRepository;
 import lk.ac.cmb.ucsc.euphoria.repository.PatientRecordsRepository;
-import org.checkerframework.checker.units.qual.C;
+import lk.ac.cmb.ucsc.euphoria.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CounselorService {
@@ -31,58 +34,49 @@ public class CounselorService {
     private CounselorRepository counselorRepository;
 
     @Autowired
-    private AppointmentRepository appointmentRepository;
+    private AppointmentRequestRepository appointmentRequestRepository;
 
     @Autowired
     private PatientRecordsRepository patientRecordsRepository;
 
     @Autowired
-    private LoginCredentialRepository loginCredentialRepository;
+    private UserRepository userRepository;
 
-    public LoginCredentials signIn(LoginCredentials loginCredentials) {
-        LOGGER.info(loginCredentials.getUsername()+" "+loginCredentials.getPassword());
-        return isExistCounselor(loginCredentials);
+    private Counselor getAuthenticatedCounselor(){
+        Object principal=SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username;
+        if (principal instanceof UserDetails){
+            username = ((UserDetails)principal).getUsername();
+        }else{
+            username = (String)principal;
+        }
+
+        Optional<Counselor> counselor=counselorRepository.findByLoginCredentials_Username(username);
+        counselor.orElseThrow(() -> new BadCredentialsException("Invalid logged in user detected"));
+        return counselor.get();
     }
 
-    private LoginCredentials isExistCounselor(LoginCredentials loginCredentials) {
-        List<Counselor> existCounselorName = counselorRepository.findByName( loginCredentials.getUsername());
+    public List<AppointmentRequest> getAppointments(String status) {
+        ArrayList<AppointmentRequest> appointmentsList = null;
+        if (status==null || status.equals(""))
+             appointmentsList = Lists.newArrayList(appointmentRequestRepository.findAll());
 
-        return null;
-    }
+        AppointmentStatus appointmentStatus=AppointmentStatus.valueOf(status);
 
-    public Counselor signUp(CounselorDTO counselorDTO) {
+        Counselor authenticatedCounselor=getAuthenticatedCounselor();
 
+        switch (appointmentStatus){
+            case PENDING:
+            case ONGOING:
+            case COMPLETED: {
+                appointmentsList = Lists.newArrayList(appointmentRequestRepository.findByStatusAndId_Counselor_id(appointmentStatus, authenticatedCounselor.getId()));
+                break;
+            }
+            default:
+                appointmentsList = Lists.newArrayList(appointmentRequestRepository.findById_Counselor_id(authenticatedCounselor.getId()));
 
-        LoginCredentials loginCredentials = new LoginCredentials();
-        loginCredentials.setUsername(counselorDTO.getName());
-        loginCredentials.setEmail(counselorDTO.getEmail());
-        loginCredentials.setPassword(counselorDTO.getPassword());
+        }
 
-        LoginCredentials loginDetails = loginCredentialRepository.save(loginCredentials);
-
-        Counselor counselor = new Counselor();
-        counselor.setName(counselorDTO.getName());
-        counselor.setCity(counselorDTO.getCity());
-        counselor.setDescription(counselorDTO.getDescription());
-        counselor.setHospital(counselorDTO.getHospital());
-        counselor.setPhotoUrl(counselorDTO.getPhotoUrl());
-        counselor.setSpecialty(counselorDTO.getSpecialty());
-        counselor.setLoginCredentials(loginCredentials);
-
-        return counselorRepository.save(counselor);
-    }
-
-
-    public LoginCredentials forgetPassword(LoginCredentials loginCredentials) {
-        return isExistCounselor(loginCredentials);
-    }
-
-    public LoginCredentials resetPassword(LoginCredentials loginCredentials) {
-        return isExistCounselor(loginCredentials);
-    }
-
-    public List<Appointment> getAppointments() {
-        ArrayList<Appointment> appointmentsList = Lists.newArrayList(appointmentRepository.findAll());
         return appointmentsList;
     }
 
@@ -90,4 +84,13 @@ public class CounselorService {
         return Lists.newArrayList(patientRecordsRepository.findAll());
     }
 
+    public List<PatientRecords> getPatientRecords(long patient) {
+        Optional<User> user=userRepository.findById(patient);
+
+        user.orElseThrow(() -> new EntityNotFoundException("No such user with ID: "+patient));
+
+        return Lists.newArrayList(patientRecordsRepository.findByUserAndCounselor(user.get(),getAuthenticatedCounselor()));
+    }
+
+//    public boolean
 }

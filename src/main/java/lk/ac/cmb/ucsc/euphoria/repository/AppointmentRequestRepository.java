@@ -9,5 +9,7 @@ import java.util.List;
 
 public interface AppointmentRequestRepository extends CrudRepository<AppointmentRequest, AppointmentRequestPK> {
 
-//    public List<AppointmentRequest> findByStatusAndId_Counselor_id(AppointmentStatus s,Long counselor);
+    public List<AppointmentRequest> findByStatusAndId_Counselor_id(AppointmentStatus s,Long counselor);
+
+    public List<AppointmentRequest> findById_Counselor_id(Long id);
 }
