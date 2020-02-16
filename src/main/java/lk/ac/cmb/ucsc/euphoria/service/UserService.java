@@ -2,6 +2,7 @@ package lk.ac.cmb.ucsc.euphoria.service;
 
 import lk.ac.cmb.ucsc.euphoria.dto.CommentDTO;
 import lk.ac.cmb.ucsc.euphoria.dto.CounselorRequestDTO;
+import lk.ac.cmb.ucsc.euphoria.dto.PasswordChangeDTO;
 import lk.ac.cmb.ucsc.euphoria.dto.PostDTO;
 import lk.ac.cmb.ucsc.euphoria.model.*;
 import lk.ac.cmb.ucsc.euphoria.repository.*;
@@ -150,7 +151,9 @@ public class UserService {
         id.setCounselor_id(counselor);
         id.setUser_id(user);
 
-        CounselorRequest temp = counselorRequestRepository.save(new CounselorRequest(id,counselorRequest.getRequest_description()));
+        CounselorRequest new_request=new CounselorRequest(id,counselorRequest.getRequest_description());
+        new_request.setAppointmentStatus("pending");
+        CounselorRequest temp = counselorRequestRepository.save(new_request);
         if(temp!=null){
             return ResponseEntity.ok(true);
         }else{
@@ -223,5 +226,34 @@ public class UserService {
         }else{
             System.out.println("user does not exist");
         }
+    }
+
+    public User getUser(long id) {
+        return userRepository.findById(id).get();
+    }
+
+    public User updateUser(User user) {
+        List<User> list=userRepository.findByEmail(user.getEmail());
+        User temp=list.get(0);
+        user.setUid(temp.getUid());
+        user.setTimestamp(new Date());
+        return userRepository.save(user);
+    }
+
+    public Password changePassword(PasswordChangeDTO pw) {
+        List<Password> list=passwordRepository.findByEmail(pw.getEmail());
+        String pwd=list.get(0).getPassword();
+        if(pwd.equals(pw.getOldPassword())){
+            if(pw.getNewPassword().equals(pw.getOldPassword())){
+                Password new_pw=list.get(0);
+                new_pw.setPassword(pw.getNewPassword());
+                return passwordRepository.save(new_pw);
+            }
+        }
+        return null;
+    }
+
+    public List<CounselorRequest> getRequests() {
+        return (List<CounselorRequest>) counselorRequestRepository.findAll();
     }
 }

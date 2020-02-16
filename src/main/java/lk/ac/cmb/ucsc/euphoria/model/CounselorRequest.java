@@ -11,13 +11,15 @@ public class CounselorRequest {
         @EmbeddedId
         private  CounselorRequestIdentity id;
         private String request_desc;
-        private Date date;
+        private String appointmentStatus;
 
         public CounselorRequest() {
-                date=new Date();
         }
 
-        public CounselorRequest(@JsonProperty("user_counselor") CounselorRequestIdentity id,@JsonProperty("request_description") String request_desc) {
+        public CounselorRequest(
+                @JsonProperty("user_counselor") CounselorRequestIdentity id,
+                @JsonProperty("request_description") String request_desc
+        ) {
                 this.id = id;
                 this.request_desc = request_desc;
         }
@@ -28,5 +30,13 @@ public class CounselorRequest {
 
         public String getRequest_desc() {
                 return request_desc;
+        }
+
+        public String getAppointmentStatus() {
+                return appointmentStatus;
+        }
+
+        public void setAppointmentStatus(String appointmentStatus) {
+                this.appointmentStatus = appointmentStatus;
         }
 }
