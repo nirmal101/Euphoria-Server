@@ -12,6 +12,16 @@ public class Rated {
     public Rated() {
     }
 
+    public Rated(RateIdentity id){
+        this.id = id;
+        rated = "No";
+    }
+
+    public Rated(RateIdentity id,String rated){
+        this.id = id;
+        this.rated = rated;
+    }
+
     public RateIdentity getId() {
         return id;
     }

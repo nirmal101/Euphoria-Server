@@ -12,6 +12,16 @@ public class Payment {
     public Payment() {
     }
 
+    public Payment(RateIdentity id){
+        this.id = id;
+        paymentStatus="unpaid";
+    }
+
+    public Payment(RateIdentity id,String paymentStatus){
+        this.id = id;
+        this.paymentStatus = paymentStatus;
+    }
+
     public RateIdentity getId() {
         return id;
     }

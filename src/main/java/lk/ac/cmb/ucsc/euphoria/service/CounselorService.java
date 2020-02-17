@@ -5,14 +5,9 @@ package lk.ac.cmb.ucsc.euphoria.service;
 
 import com.google.common.collect.Lists;
 import lk.ac.cmb.ucsc.euphoria.constants.AppointmentStatus;
-import lk.ac.cmb.ucsc.euphoria.model.AppointmentRequest;
-import lk.ac.cmb.ucsc.euphoria.model.PatientRecords;
-import lk.ac.cmb.ucsc.euphoria.model.User;
+import lk.ac.cmb.ucsc.euphoria.model.*;
 import lk.ac.cmb.ucsc.euphoria.model.counselor.Counselor;
-import lk.ac.cmb.ucsc.euphoria.repository.AppointmentRequestRepository;
-import lk.ac.cmb.ucsc.euphoria.repository.CounselorRepository;
-import lk.ac.cmb.ucsc.euphoria.repository.PatientRecordsRepository;
-import lk.ac.cmb.ucsc.euphoria.repository.UserRepository;
+import lk.ac.cmb.ucsc.euphoria.repository.*;
 import lk.ac.cmb.ucsc.euphoria.util.ActiveUsersUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,6 +41,12 @@ public class CounselorService {
     @Autowired
     private ActiveUsersUtil activeUsersUtil;
 
+    @Autowired
+    private PaymentRepository paymentRepository;
+
+    @Autowired
+    private RatedRepository ratedRepository;
+
     private Counselor getAuthenticatedCounselor() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username;
@@ -66,6 +67,8 @@ public class CounselorService {
         Counselor authenticatedCounselor = getAuthenticatedCounselor();
 
         switch (appointmentStatus) {
+            case REJECTED:
+            case ACCEPTED:
             case PENDING:
             case ONGOING:
             case COMPLETED: {
@@ -101,7 +104,16 @@ public class CounselorService {
     }
 
     public boolean signUp(Counselor counselor) throws IllegalArgumentException{
+        counselor.setEnabled("yes");
         counselorRepository.save(counselor);
+        return true;
+    }
+
+    public boolean updateAppointment(AppointmentRequest request){
+        appointmentRequestRepository.save(request);
+        RateIdentity ri=new RateIdentity(request.getId().getCounselor(),request.getId().getUser());
+        paymentRepository.save(new Payment(ri));
+        ratedRepository.save(new Rated(ri));
         return true;
     }
 }
