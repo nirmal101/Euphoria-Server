@@ -29,8 +29,7 @@ public class PatientRecords extends SuperEntity {
     @Column(columnDefinition = "json")
     private JSONObject prescription;
 
-    public PatientRecords() {
-    }
+    public PatientRecords() { }
 
     public String getTitle() {
         return title;

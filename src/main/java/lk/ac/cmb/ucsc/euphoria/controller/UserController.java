@@ -179,7 +179,7 @@ public class UserController {
     }
     @GetMapping(path = "/getrequests", produces = "application/json")
     @CrossOrigin
-    public List<CounselorRequest> getRequests() {
+    public List<AppointmentRequest> getRequests() {
         System.out.println("Get counselors");
         return userService.getRequests();
     }

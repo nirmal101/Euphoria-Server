@@ -1,9 +1,9 @@
 package lk.ac.cmb.ucsc.euphoria.service;
 
 import lk.ac.cmb.ucsc.euphoria.model.Admin;
-import lk.ac.cmb.ucsc.euphoria.model.Counselor;
 import lk.ac.cmb.ucsc.euphoria.model.Password;
 import lk.ac.cmb.ucsc.euphoria.model.User;
+import lk.ac.cmb.ucsc.euphoria.model.counselor.Counselor;
 import lk.ac.cmb.ucsc.euphoria.repository.AdminRepository;
 import lk.ac.cmb.ucsc.euphoria.repository.CounselorRepository;
 import lk.ac.cmb.ucsc.euphoria.repository.PasswordRepository;
