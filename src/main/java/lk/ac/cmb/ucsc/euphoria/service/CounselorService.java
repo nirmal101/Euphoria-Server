@@ -112,8 +112,18 @@ public class CounselorService {
     public boolean updateAppointment(AppointmentRequest request){
         appointmentRequestRepository.save(request);
         RateIdentity ri=new RateIdentity(request.getId().getCounselor(),request.getId().getUser());
-        paymentRepository.save(new Payment(ri));
-        ratedRepository.save(new Rated(ri));
+        switch (request.getStatus()){
+            case ACCEPTED:{
+                paymentRepository.save(new Payment(ri));
+                break;
+            }
+            case COMPLETED:{
+                ratedRepository.save(new Rated(ri));
+                break;
+            }
+        }
+//        paymentRepository.save(new Payment(ri));
+//        ratedRepository.save(new Rated(ri));
         return true;
     }
 }
