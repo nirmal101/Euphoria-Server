@@ -95,6 +95,7 @@ public class UserService {
             emailService.sendSimpleMessage(user.getEmail(),"Welcome to Euphoria","Please click the following link to verify your account \n"+link+"/"+user.getEmail());
 
             user.setActivated("no");
+            user.setAccount_type("quick");
             User us=userRepository.save(user);
             if (pw == null & us==null) {
                 return false;
@@ -111,8 +112,7 @@ public class UserService {
     }
 
     //can use this later when the user decides to  fill in the formal data
-    public boolean
-    formalSignUp(User user) {
+    public boolean formalSignUp(User user) {
         Optional<Password> existing= passwordRepository.findById(user.getEmail());
 
         if(existing.isEmpty()){
@@ -130,6 +130,7 @@ public class UserService {
 
         user.setActivated("yes");
         user.setPic_name("me");
+        user.setAccount_type("formal");
         User us=userRepository.save(user);
         if ( us==null) {
             return false;

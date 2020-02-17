@@ -168,4 +168,8 @@ public class User {
     public void setTimestamp(Date timestamp) {
         this.timestamp = timestamp;
     }
+
+    public void setAccount_type(String account_type) {
+        this.account_type = account_type;
+    }
 }
