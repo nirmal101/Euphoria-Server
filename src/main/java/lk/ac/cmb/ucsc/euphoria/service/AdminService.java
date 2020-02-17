@@ -101,5 +101,7 @@ public class AdminService {
 
     public Counselor activateCounselor(long id) {
         Counselor coun=counselorRepository.findById(id).get();
+        coun.setEnabled("yes");
+        return counselorRepository.save(coun);
     }
 }
