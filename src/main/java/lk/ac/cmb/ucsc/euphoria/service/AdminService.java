@@ -100,6 +100,6 @@ public class AdminService {
     }
 
     public Counselor activateCounselor(long id) {
-        Counselor coun=counselorRepository.findById(id).get();
+        return counselorRepository.findById(id).get();
     }
 }

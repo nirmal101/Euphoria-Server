@@ -10,13 +10,9 @@ import lk.ac.cmb.ucsc.euphoria.service.EmailService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RequestMapping("api/counselor")
 @RestController
@@ -56,25 +52,9 @@ public class CounselorController {
         return counselorService.getAppointments(status);
     }
 
-    private Counselor getAuthenticatedCounselor() {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String username;
-        if (principal instanceof UserDetails) {
-            username = ((UserDetails) principal).getUsername();
-        } else {
-            username = (String) principal;
-        }
-
-        Optional<Counselor> counselor = counselorRepository.findByLoginCredentials_Username(username);
-        counselor.orElseThrow(() -> new BadCredentialsException("Invalid logged in user detected"));
-        return counselor.get();
-    }
-
     @CrossOrigin
-    @PostMapping(path = "/appointments}", produces = "application/json")
-    public boolean updateAppointments(@RequestParam AppointmentRequest appointmentRequest) {
-//        TODO: insert into Payment table to pending
-//        TODO: insert into rated table
+    @PostMapping(path = "/appointments", produces = "application/json")
+    public boolean updateAppointments(@RequestBody AppointmentRequest appointmentRequest) {
         return counselorService.updateAppointment(appointmentRequest);
     }
 

@@ -1,7 +1,5 @@
 package lk.ac.cmb.ucsc.euphoria.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.Date;
@@ -9,7 +7,7 @@ import java.util.Date;
 @Entity
 public class User {
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long uid;
 
 
@@ -32,7 +30,7 @@ public class User {
     private String activated;//initial activation upon registration
     private boolean deleted;//whether the account is deleted or not
     /******/
-    private Date timestamp=new Date();
+    private Date timestamp = new Date();
 
     private String pic_name;
 
@@ -43,24 +41,23 @@ public class User {
     public User(
 
             String gender,
-             String firstname,
-             String lastname,
+            String firstname,
+            String lastname,
             String email,
             String password,
             int contactNumber,
             String dob,
-             String nic,
+            String nic,
             String city,
-             String district,
-             String account_type,
+            String district,
+            String account_type,
             String pic_name,
-             String activated,
+            String activated,
             Boolean deleted,
             String status
 
 
-
-            ) {
+    ) {
 
 
         this.gender = gender;
@@ -75,10 +72,37 @@ public class User {
         this.district = district;
         this.status = status;
         this.account_type = account_type;
-        this.pic_name=pic_name;
-        this.activated=activated;
-        this.deleted=deleted;
-        this.timestamp=new Date();
+        this.pic_name = pic_name;
+        this.activated = activated;
+        this.deleted = deleted;
+        this.timestamp = new Date();
+    }
+
+    public User(
+            String gender,
+            String firstName,
+            String lastName,
+            String email,
+            String password,
+            int contactNumber,
+            String dob,
+            String nic,
+            String city,
+            String district,
+            String account_type
+    ) {
+        this.gender = gender;
+        this.firstname = firstName;
+        this.lastname = lastName;
+        this.email = email;
+        this.password = password;
+        this.contactNumber = contactNumber;
+        this.dob = dob;
+        this.nic = nic;
+        this.city = city;
+        this.district = district;
+        this.account_type = account_type;
+        this.timestamp = new Date();
     }
 
     public void setUid(long uid) {

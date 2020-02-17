@@ -3,7 +3,10 @@ package lk.ac.cmb.ucsc.euphoria.model.counselor;
 import lk.ac.cmb.ucsc.euphoria.model.common.LoginCredentials;
 import lk.ac.cmb.ucsc.euphoria.model.common.SuperEntity;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Counselor extends SuperEntity {
@@ -20,13 +23,13 @@ public class Counselor extends SuperEntity {
     private String city;
 
     private String picName;
+    private float rating;
+    private int ratedTimes;
+    private String enabled;
 
     @OneToOne(cascade = CascadeType.ALL)
     private LoginCredentials loginCredentials;
 
-    private float rating;
-    private int ratedTimes;
-    private String enabled;
 
     public Counselor() {
     }
