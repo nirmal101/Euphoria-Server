@@ -4,6 +4,7 @@ import lk.ac.cmb.ucsc.euphoria.model.Admin;
 import lk.ac.cmb.ucsc.euphoria.model.User;
 import lk.ac.cmb.ucsc.euphoria.model.counselor.Counselor;
 import lk.ac.cmb.ucsc.euphoria.service.AdminService;
+import lk.ac.cmb.ucsc.euphoria.service.CounselorService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +20,14 @@ public class AdminController {
     @Autowired
     private final AdminService adminService;
 
+    @Autowired
+    private final CounselorService counselorService;
+
     private static final Logger LOGGER= LoggerFactory.getLogger(AdminController.class);
 
-    public AdminController(AdminService adminService) {
+    public AdminController(AdminService adminService, CounselorService counselorService) {
         this.adminService = adminService;
+        this.counselorService=counselorService;
     }
 
     //***********************************************************ADMINS***********************************************************
@@ -59,6 +64,14 @@ public class AdminController {
         adminService.updateAdmin(admin);
     }
 
+    @GetMapping(path="/getOnlineCounselors")
+    @CrossOrigin
+    public String getOnlineCounselors(){
+        List<Counselor> onlineCounselors = counselorService.getActiveCounselors();
+        long count = onlineCounselors.size();
+        return Long.toString(count);
+    }
+
     //*********************************************************USERS*********************************************************
     @GetMapping(path="/getFormalUsers", produces = "application/json")
     @CrossOrigin
@@ -83,6 +96,12 @@ public class AdminController {
     @CrossOrigin
     public String getOnlineUsers(){
         return adminService.getOnlineUsers();
+    }
+
+    @CrossOrigin
+    @DeleteMapping(path="/deleteUser")
+    public void deleteUser(@RequestParam long id){
+        adminService.deleteUser(id);
     }
 
     //*****************************************************COUNSELORS*****************************************************

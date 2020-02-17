@@ -84,6 +84,10 @@ public class AdminService {
         return Long.toString(count);
     }
 
+    public void deleteUser(@PathVariable long id){
+        userRepository.deleteUser(id);
+    }
+
     //***********************************************Counselor Repository***********************************************
     public List<Counselor> getCounselors() {
         return (List<Counselor>) counselorRepository.findAll();
