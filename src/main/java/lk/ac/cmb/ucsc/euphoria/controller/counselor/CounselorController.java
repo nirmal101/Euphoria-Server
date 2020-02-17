@@ -1,24 +1,36 @@
 package lk.ac.cmb.ucsc.euphoria.controller.counselor;
 
+import lk.ac.cmb.ucsc.euphoria.EuphoriaApplication;
 import lk.ac.cmb.ucsc.euphoria.model.AppointmentRequest;
 import lk.ac.cmb.ucsc.euphoria.model.PatientRecords;
 import lk.ac.cmb.ucsc.euphoria.model.counselor.Counselor;
+import lk.ac.cmb.ucsc.euphoria.repository.CounselorRepository;
 import lk.ac.cmb.ucsc.euphoria.service.CounselorService;
 import lk.ac.cmb.ucsc.euphoria.service.EmailService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequestMapping("api/counselor")
 @RestController
 public class CounselorController {
+    private static final Logger LOGGER = LoggerFactory.getLogger(EuphoriaApplication.class);
 
     @Autowired
     private CounselorService counselorService;
 
     @Autowired
     private EmailService emailService;
+
+    @Autowired
+    private CounselorRepository counselorRepository;
 
 //    @CrossOrigin
 //    @PostMapping(path = "/sign-in", consumes = "application/json", produces = "application/json")
@@ -44,10 +56,26 @@ public class CounselorController {
         return counselorService.getAppointments(status);
     }
 
+    private Counselor getAuthenticatedCounselor() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username;
+        if (principal instanceof UserDetails) {
+            username = ((UserDetails) principal).getUsername();
+        } else {
+            username = (String) principal;
+        }
+
+        Optional<Counselor> counselor = counselorRepository.findByLoginCredentials_Username(username);
+        counselor.orElseThrow(() -> new BadCredentialsException("Invalid logged in user detected"));
+        return counselor.get();
+    }
+
     @CrossOrigin
-    @PostMapping(path = "/appointments/{status}", produces = "application/json")
-    public List<AppointmentRequest> updateAppointments(@PathVariable String status) {
-        return counselorService.getAppointments("F");
+    @PostMapping(path = "/appointments}", produces = "application/json")
+    public boolean updateAppointments(@RequestParam AppointmentRequest appointmentRequest) {
+//        TODO: insert into Payment table to pending
+//        TODO: insert into rated table
+        return counselorService.updateAppointment(appointmentRequest);
     }
 
     @CrossOrigin

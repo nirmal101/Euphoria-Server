@@ -104,4 +104,9 @@ public class CounselorService {
         counselorRepository.save(counselor);
         return true;
     }
+
+    public boolean updateAppointment(AppointmentRequest request){
+        appointmentRequestRepository.save(request);
+        return true;
+    }
 }

@@ -1,7 +1,7 @@
 package lk.ac.cmb.ucsc.euphoria.constants;
 
 public enum AppointmentStatus {
-    PENDING("P"), ONGOING("O"), COMPLETED("C"), REJECTED("R"), ACCEPTED("A");
+    PENDING("pending"), ONGOING("ongoing"), COMPLETED("completed"), REJECTED("rejected"), ACCEPTED("accepted");
 
     String value;
     AppointmentStatus(String s) {
