@@ -132,7 +132,8 @@ public class UserController {
     public Post addCommentToPost(@RequestBody @Valid @NonNull CommentDTO comment) {
 
         System.out.println("came to the server");
-
+        System.out.println(comment.getComment_description());
+        System.out.println(comment.getPost_id());
         try{
             return userService.addCommentToPost(comment);
 

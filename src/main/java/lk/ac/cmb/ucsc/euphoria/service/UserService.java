@@ -124,6 +124,7 @@ public class UserService {
 
 
         user.setActivated("yes");
+        user.setPic_name("me");
         User us=userRepository.save(user);
         if ( us==null) {
             return false;
