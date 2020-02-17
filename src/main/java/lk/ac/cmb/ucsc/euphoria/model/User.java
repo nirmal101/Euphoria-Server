@@ -9,7 +9,7 @@ import java.util.Date;
 @Entity
 public class User {
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long uid;
 
 
@@ -32,7 +32,7 @@ public class User {
     private String activated;//initial activation upon registration
     private boolean deleted;//whether the account is deleted or not
     /******/
-    private Date timestamp=new Date();
+    private Date timestamp = new Date();
 
     private String pic_name;
 
@@ -41,12 +41,12 @@ public class User {
     }
 
     public User(
-           long uid,
+            long uid,
             @JsonProperty("gender") String gender,
             @JsonProperty("firstname") String first_name,
             @JsonProperty("lastname") String last_name,
             @JsonProperty("email") @NotBlank String email,
-            @JsonProperty("password")String password,
+            @JsonProperty("password") String password,
             @JsonProperty("contactNumber") int contact_number,
             @JsonProperty("dob") String date_of_birth,
             @JsonProperty("nic") String nic,
@@ -57,10 +57,7 @@ public class User {
             @JsonProperty("activated") String activated,
             @JsonProperty("deleted") Boolean deleted,
             @JsonProperty("status") String status
-
-
-
-            ) {
+    ) {
         this.uid = uid;
 
         this.gender = gender;
@@ -75,10 +72,37 @@ public class User {
         this.district = district;
         this.status = status;
         this.account_type = account_type;
-        this.pic_name=pic_name;
-        this.activated=activated;
-        this.deleted=deleted;
-        this.timestamp=new Date();
+        this.pic_name = pic_name;
+        this.activated = activated;
+        this.deleted = deleted;
+        this.timestamp = new Date();
+    }
+
+    public User(
+            String gender,
+            String first_name,
+            String last_name,
+            String email,
+            String password,
+            int contact_number,
+            String date_of_birth,
+            String nic,
+            String city,
+            String district,
+            String account_type
+    ) {
+        this.gender = gender;
+        this.first_name = first_name;
+        this.last_name = last_name;
+        this.email = email;
+        this.password = password;
+        this.contact_number = contact_number;
+        this.date_of_birth = date_of_birth;
+        this.nic = nic;
+        this.city = city;
+        this.district = district;
+        this.account_type = account_type;
+        this.timestamp = new Date();
     }
 
     public void setUid(long uid) {

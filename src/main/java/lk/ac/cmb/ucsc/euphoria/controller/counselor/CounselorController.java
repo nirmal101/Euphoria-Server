@@ -1,16 +1,11 @@
 package lk.ac.cmb.ucsc.euphoria.controller.counselor;
 
-import lk.ac.cmb.ucsc.euphoria.constants.AppointmentStatus;
-import lk.ac.cmb.ucsc.euphoria.model.Appointment;
 import lk.ac.cmb.ucsc.euphoria.model.AppointmentRequest;
-import lk.ac.cmb.ucsc.euphoria.model.counselor.Counselor;
 import lk.ac.cmb.ucsc.euphoria.model.PatientRecords;
-import lk.ac.cmb.ucsc.euphoria.model.common.LoginCredentials;
+import lk.ac.cmb.ucsc.euphoria.model.counselor.Counselor;
 import lk.ac.cmb.ucsc.euphoria.service.CounselorService;
 import lk.ac.cmb.ucsc.euphoria.service.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -50,6 +45,12 @@ public class CounselorController {
     }
 
     @CrossOrigin
+    @PostMapping(path = "/appointments/{status}", produces = "application/json")
+    public List<AppointmentRequest> updateAppointments(@PathVariable String status) {
+        return counselorService.getAppointments("F");
+    }
+
+    @CrossOrigin
     @GetMapping(path = "/patient-records/{user}", produces = "application/json")
     public List<PatientRecords> getPatientRecords(@PathVariable long user) {
         return counselorService.getPatientRecords(user);
@@ -57,17 +58,17 @@ public class CounselorController {
 
     @CrossOrigin
     @PostMapping(path = "/patient-records", produces = "application/json")
-    public void newPatientRecord(@PathVariable PatientRecords record) {
-        counselorService.newPatientRecord(record);
+    public boolean newPatientRecord(@RequestParam PatientRecords record) {
+        return counselorService.newPatientRecord(record);
     }
-
-
 
 //    @CrossOrigin
 //    @GetMapping
 //    public PatientRecords getSinglePatientRecords(Long patient){
 //        return counselorService.getSinglePatientRecords(patient);
 //    }
+
+
 
     @CrossOrigin
     @GetMapping(path = "/testMail")

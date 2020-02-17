@@ -3,7 +3,10 @@ package lk.ac.cmb.ucsc.euphoria.model;
 import lk.ac.cmb.ucsc.euphoria.model.counselor.Counselor;
 import org.hibernate.annotations.CreationTimestamp;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Embeddable;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -158,6 +159,7 @@ public class UserService {
         AppointmentRequestPK id=new AppointmentRequestPK();
         id.setCounselor(counselor);
         id.setUser(user);
+        id.setCreatedAt(LocalDateTime.now());
 
         AppointmentRequest new_request=new AppointmentRequest(id,counselorRequest.getRequest_description());
         new_request.setStatus(AppointmentStatus.PENDING);
