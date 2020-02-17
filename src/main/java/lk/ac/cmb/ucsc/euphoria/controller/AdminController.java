@@ -1,10 +1,9 @@
 package lk.ac.cmb.ucsc.euphoria.controller;
 
 import lk.ac.cmb.ucsc.euphoria.model.Admin;
-import lk.ac.cmb.ucsc.euphoria.model.Counselor;
 import lk.ac.cmb.ucsc.euphoria.model.User;
+import lk.ac.cmb.ucsc.euphoria.model.counselor.Counselor;
 import lk.ac.cmb.ucsc.euphoria.service.AdminService;
-import org.hibernate.validator.constraints.pl.REGON;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

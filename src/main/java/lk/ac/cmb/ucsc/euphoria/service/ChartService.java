@@ -27,7 +27,7 @@ public class ChartService {
     @Autowired
     private CounselorRepository counselorRepository;
     @Autowired
-    private CounselorRequestRepository counselorRequestRepository;
+    private AppointmentRequestRepository appointmentRequestRepository;
     @Autowired
     private PostRepository postRepository;
     @Autowired
