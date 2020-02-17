@@ -26,6 +26,7 @@ public class Counselor extends SuperEntity {
 
     private float rating;
     private int ratedTimes;
+    private String enabled;
 
     public Counselor() {
     }
@@ -59,6 +60,14 @@ public class Counselor extends SuperEntity {
         this.city = city;
         this.picName = picName;
         this.loginCredentials = new LoginCredentials(username,password,email);
+    }
+
+    public String getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(String enabled) {
+        this.enabled = enabled;
     }
 
     public float getRating() {

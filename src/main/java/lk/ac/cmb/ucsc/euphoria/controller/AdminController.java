@@ -98,4 +98,9 @@ public class AdminController {
     public String getRegisteredCounselors(){
         return adminService.getRegisteredCounselors();
     }
+    @PostMapping(path="/activatecounselor/{id}")
+    @CrossOrigin
+    public Counselor activateCounselor(@PathVariable("id") long id){
+        return adminService.activateCounselor(id);
+    }
 }
