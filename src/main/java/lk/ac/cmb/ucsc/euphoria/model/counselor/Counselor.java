@@ -24,6 +24,9 @@ public class Counselor extends SuperEntity {
     @OneToOne(cascade = CascadeType.ALL)
     private LoginCredentials loginCredentials;
 
+    private float rating;
+    private int ratedTimes;
+
     public Counselor() {
     }
 
@@ -58,6 +61,21 @@ public class Counselor extends SuperEntity {
         this.loginCredentials = new LoginCredentials(username,password,email);
     }
 
+    public float getRating() {
+        return rating;
+    }
+
+    public void setRating(float rating) {
+        this.rating = rating;
+    }
+
+    public int getRatedTimes() {
+        return ratedTimes;
+    }
+
+    public void setRatedTimes(int ratedTimes) {
+        this.ratedTimes = ratedTimes;
+    }
 
     public Counselor(Long id) {
         super(id);
