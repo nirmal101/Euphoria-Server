@@ -153,4 +153,12 @@ public class Counselor extends SuperEntity {
     public void setLoginCredentials(LoginCredentials loginCredentials) {
         this.loginCredentials = loginCredentials;
     }
+
+    public String getSlmcNumber() {
+        return slmcNumber;
+    }
+
+    public void setSlmcNumber(String slmcNumber) {
+        this.slmcNumber = slmcNumber;
+    }
 }

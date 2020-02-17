@@ -35,12 +35,11 @@ public class GenderCountDTO {
         if (this == o) return true;
         if (!(o instanceof GenderCountDTO)) return false;
         GenderCountDTO that = (GenderCountDTO) o;
-        return getCount() == that.getCount() &&
-                getGender().equals(that.getGender());
+        return getGender().equals(that.getGender());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getGender(), getCount());
+        return Objects.hash(getGender());
     }
 }

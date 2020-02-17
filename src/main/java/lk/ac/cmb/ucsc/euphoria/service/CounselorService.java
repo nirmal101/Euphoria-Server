@@ -104,7 +104,7 @@ public class CounselorService {
     }
 
     public boolean signUp(Counselor counselor) throws IllegalArgumentException{
-        counselor.setEnabled("yes");
+        counselor.setEnabled("no");
         counselorRepository.save(counselor);
         return true;
     }

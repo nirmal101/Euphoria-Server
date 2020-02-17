@@ -28,14 +28,14 @@ class EuphoriaApplicationTests {
         seedUserTestValues();
     }
 
-    void seedCounselorTestValues() {
-        LoginCredentials loginCredentials = new LoginCredentials("testCounselor", "password", "testCounselor@euphoria.io");
-        Counselor counselor = new Counselor("TestCounselor", "This account is for testing",
-                "N/A", "N/A", "Colombo", "");
-        counselor.setLoginCredentials(loginCredentials);
-        counselorRepository.save(counselor);
-        LOGGER.debug("Successfully saved Test Counselor");
-    }
+//    void seedCounselorTestValues() {
+//        LoginCredentials loginCredentials = new LoginCredentials("testCounselor", "password", "testCounselor@euphoria.io");
+////        Counselor counselor = new Counselor("TestCounselor", "This account is for testing",
+////                "N/A", "N/A", "Colombo", "");
+//        counselor.setLoginCredentials(loginCredentials);
+//        counselorRepository.save(counselor);
+//        LOGGER.debug("Successfully saved Test Counselor");
+//    }
 
     void seedUserTestValues() {
         User user = new User("M", "TestUserFN", "TestUserLN", "testUser@euphoria.io",
