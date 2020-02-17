@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import java.util.Date;
 
 @Entity
 public class CounselorRequest {

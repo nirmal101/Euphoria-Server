@@ -2,11 +2,10 @@ package lk.ac.cmb.ucsc.euphoria.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
 import java.util.Objects;
 
 @Embeddable
-public class CounselorRequestIdentity implements Serializable {
+public class RateIdentity  implements Serializable {
 
 
     @ManyToOne(cascade = CascadeType.ALL)
@@ -15,27 +14,17 @@ public class CounselorRequestIdentity implements Serializable {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn
     private User user_id;
-    private  Date timestamp;
 
 
 
-    public CounselorRequestIdentity() {
-        this.timestamp = new Date();
+    public RateIdentity() {
     }
 
-    public CounselorRequestIdentity( Counselor counselor_id,User user_id) {
+    public RateIdentity( Counselor counselor_id,User user_id) {
         this.counselor_id = counselor_id;
         this.user_id = user_id;
-        this.timestamp = new Date();
     }
 
-    public Date getTimestamp() {
-        return timestamp;
-    }
-
-    public void setTimestamp(Date timestamp) {
-        this.timestamp = timestamp;
-    }
 
     public Counselor getCounselor_id() {
         return counselor_id;
@@ -59,12 +48,11 @@ public class CounselorRequestIdentity implements Serializable {
         if (!(o instanceof CounselorRequestIdentity)) return false;
         CounselorRequestIdentity that = (CounselorRequestIdentity) o;
         return getCounselor_id().equals(that.getCounselor_id()) &&
-                getUser_id().equals(that.getUser_id()) &&
-                getTimestamp().equals(that.getTimestamp());
+                getUser_id().equals(that.getUser_id());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getCounselor_id(), getUser_id(), getTimestamp());
+        return Objects.hash(getCounselor_id(), getUser_id());
     }
 }

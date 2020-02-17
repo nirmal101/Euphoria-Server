@@ -14,7 +14,8 @@ public class Counselor {
     private String hospital;
     private String city;
     private String picName;
-
+    private float rating;
+    private int ratedTimes;
     public Counselor() {
     }
 
@@ -25,6 +26,14 @@ public class Counselor {
         this.specialty = specialty;
         this.city = city;
         this.picName = picName;
+    }
+
+    public float getRating() {
+        return rating;
+    }
+
+    public void setRating(float rating) {
+        this.rating = rating;
     }
 
     public String getHospital() {
@@ -61,5 +70,13 @@ public class Counselor {
 
     public void setCounselor_id(long counselor_id) {
         this.counselor_id = counselor_id;
+    }
+
+    public int getRatedTimes() {
+        return ratedTimes;
+    }
+
+    public void setRatedTimes(int ratedTimes) {
+        this.ratedTimes = ratedTimes;
     }
 }
