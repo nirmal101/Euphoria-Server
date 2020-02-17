@@ -1,6 +1,5 @@
 package lk.ac.cmb.ucsc.euphoria.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lk.ac.cmb.ucsc.euphoria.constants.AppointmentStatus;
 import lk.ac.cmb.ucsc.euphoria.util.AppointmentStatusConverter;
 
@@ -14,35 +13,42 @@ public class AppointmentRequest {
     @EmbeddedId
     private AppointmentRequestPK id;
 
-    private String request_desc;
+    private String description;
 
     @Convert(converter = AppointmentStatusConverter.class)
     private AppointmentStatus status;
 
-    private LocalDateTime appointmentTime;
+    private LocalDateTime apntmntTime;
 
     public AppointmentRequest() {
     }
 
-    public AppointmentRequest(@JsonProperty("user_counselor") AppointmentRequestPK id, @JsonProperty("request_description") String request_desc) {
+    public AppointmentRequest(AppointmentRequestPK id, String description) {
         this.id = id;
-        this.request_desc = request_desc;
+        this.description = description;
+        this.status = AppointmentStatus.PENDING;
+    }
+
+    public AppointmentRequest(AppointmentRequestPK id,LocalDateTime apntmntTime) {
+        this.id = id;
+        this.apntmntTime = apntmntTime;
+        this.status = AppointmentStatus.ACCEPTED;
     }
 
     public AppointmentRequestPK getId() {
         return id;
     }
 
-    public String getRequest_desc() {
-        return request_desc;
+    public String getDescription() {
+        return description;
     }
 
     public void setId(AppointmentRequestPK id) {
         this.id = id;
     }
 
-    public void setRequest_desc(String request_desc) {
-        this.request_desc = request_desc;
+    public void setDescription(String request_desc) {
+        this.description = request_desc;
     }
 
     public AppointmentStatus getStatus() {
@@ -53,11 +59,11 @@ public class AppointmentRequest {
         this.status = status;
     }
 
-    public LocalDateTime getAppointmentTime() {
-        return appointmentTime;
+    public LocalDateTime getApntmntTime() {
+        return apntmntTime;
     }
 
-    public void setAppointmentTime(LocalDateTime appointmentTime) {
-        this.appointmentTime = appointmentTime;
+    public void setApntmntTime(LocalDateTime appointmentTime) {
+        this.apntmntTime = appointmentTime;
     }
 }

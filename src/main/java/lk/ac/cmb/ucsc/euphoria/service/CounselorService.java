@@ -74,7 +74,6 @@ public class CounselorService {
             }
             default:
                 appointmentsList = Lists.newArrayList(appointmentRequestRepository.findById_Counselor_id(authenticatedCounselor.getId()));
-
         }
 
         return appointmentsList;
@@ -84,14 +83,15 @@ public class CounselorService {
         return Lists.newArrayList(patientRecordsRepository.findAll());
     }
 
-    public List<PatientRecords> getPatientRecords(long patient) {
+    public List<PatientRecords> getPatientRecords(long patient) throws IllegalArgumentException,EntityNotFoundException{
         Optional<User> user = userRepository.findById(patient);
         user.orElseThrow(() -> new EntityNotFoundException("No such user with ID: " + patient));
         return Lists.newArrayList(patientRecordsRepository.findByUserAndCounselor(user.get(), getAuthenticatedCounselor()));
     }
 
-    public void newPatientRecord(PatientRecords record) {
+    public boolean newPatientRecord(PatientRecords record) throws IllegalArgumentException{
         patientRecordsRepository.save(record);
+        return true;
     }
 
 //    public boolean
@@ -100,7 +100,7 @@ public class CounselorService {
         return counselorRepository.findAllByLoginCredentials_UsernameIn(allActive);
     }
 
-    public boolean signUp(Counselor counselor) {
+    public boolean signUp(Counselor counselor) throws IllegalArgumentException{
         counselorRepository.save(counselor);
         return true;
     }
