@@ -3,32 +3,35 @@ package lk.ac.cmb.ucsc.euphoria.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class RateDTO {
-    private long counselor_id;
-    private long user_id;
+    private long counselorId;
+    private long userId;
     private long rate;
 
-    public RateDTO(@JsonProperty("counselor_id") long counselor_id,
-                   @JsonProperty("user_id") long user_id,
-                   @JsonProperty("rating") long rate) {
-        this.counselor_id = counselor_id;
-        this.user_id = user_id;
+    public RateDTO() {
+    }
+
+    public RateDTO(@JsonProperty("counselorId") long counselorId,
+                   @JsonProperty("userId") long userId,
+                   @JsonProperty("rate") long rate) {
+        this.counselorId = counselorId;
+        this.userId = userId;
         this.rate = rate;
     }
 
-    public long getCounselor_id() {
-        return counselor_id;
+    public long getCounselorId() {
+        return counselorId;
     }
 
-    public void setCounselor_id(long counselor_id) {
-        this.counselor_id = counselor_id;
+    public void setCounselorId(long counselorId) {
+        this.counselorId = counselorId;
     }
 
-    public long getUser_id() {
-        return user_id;
+    public long getUserId() {
+        return userId;
     }
 
-    public void setUser_id(long user_id) {
-        this.user_id = user_id;
+    public void setUserId(long userId) {
+        this.userId = userId;
     }
 
     public long getRate() {

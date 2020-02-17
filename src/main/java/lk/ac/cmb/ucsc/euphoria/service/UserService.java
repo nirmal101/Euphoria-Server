@@ -279,16 +279,16 @@ public class UserService {
 
     public Counselor rateCounselor(RateDTO rate) {
         System.out.println("rate service");
-        Counselor coun=counselorRepository.findById(rate.getCounselor_id()).get();
+        Counselor coun=counselorRepository.findById(rate.getCounselorId()).get();
         coun.setRatedTimes(coun.getRatedTimes()+1);
         float new_rate=(float) (rate.getRate()+coun.getRating())/5;
         coun.setRating(new_rate);
 
         User us=new User();
-        us.setUid(rate.getUser_id());
+        us.setUid(rate.getUserId());
 
         Counselor co=new Counselor();
-        co.setCounselor_id(rate.getCounselor_id());
+        co.setId(rate.getCounselorId());
 
         RateIdentity rid=new RateIdentity();
         rid.setUser_id(us);
@@ -307,10 +307,10 @@ public class UserService {
 
     public Payment updatePayment(RateDTO payment) {
         User us=new User();
-        us.setUid(payment.getUser_id());
+        us.setUid(payment.getUserId());
 
         Counselor co=new Counselor();
-        co.setCounselor_id(payment.getCounselor_id());
+        co.setId(payment.getCounselorId());
 
         RateIdentity rid=new RateIdentity();
         rid.setUser_id(us);

@@ -1,5 +1,7 @@
 package lk.ac.cmb.ucsc.euphoria.model;
 
+import lk.ac.cmb.ucsc.euphoria.model.counselor.Counselor;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
@@ -10,7 +12,7 @@ public class RateIdentity  implements Serializable {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn()
-    private  Counselor counselor_id;
+    private Counselor counselor_id;
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn
     private User user_id;
@@ -45,10 +47,10 @@ public class RateIdentity  implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof CounselorRequestIdentity)) return false;
-        CounselorRequestIdentity that = (CounselorRequestIdentity) o;
-        return getCounselor_id().equals(that.getCounselor_id()) &&
-                getUser_id().equals(that.getUser_id());
+        if (!(o instanceof RateIdentity)) return false;
+        RateIdentity that = (RateIdentity) o;
+        return Objects.equals(getCounselor_id(), that.getCounselor_id()) &&
+                Objects.equals(getUser_id(), that.getUser_id());
     }
 
     @Override
