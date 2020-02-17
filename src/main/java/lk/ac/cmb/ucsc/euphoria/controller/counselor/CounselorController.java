@@ -66,7 +66,7 @@ public class CounselorController {
 
     @CrossOrigin
     @PostMapping(path = "/patient-records", produces = "application/json")
-    public boolean newPatientRecord(@RequestParam PatientRecords record) {
+    public boolean newPatientRecord(@RequestBody PatientRecords record) {
         return counselorService.newPatientRecord(record);
     }
 
@@ -75,8 +75,6 @@ public class CounselorController {
 //    public PatientRecords getSinglePatientRecords(Long patient){
 //        return counselorService.getSinglePatientRecords(patient);
 //    }
-
-
 
     @CrossOrigin
     @GetMapping(path = "/testMail")
