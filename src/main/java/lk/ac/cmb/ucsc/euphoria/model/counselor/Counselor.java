@@ -13,6 +13,8 @@ public class Counselor extends SuperEntity {
 
     private String name;
 
+    private String slmcNumber;
+
     @Column(length = 500)
     private String description;
 
@@ -34,16 +36,17 @@ public class Counselor extends SuperEntity {
     public Counselor() {
     }
 
-    public Counselor(String name, String description, String specialty, String hospital, String city, String picName) {
+    public Counselor(String name, String description, String specialty, String hospital, String city, String picName, String slmcNumber) {
         this.name = name;
         this.description = description;
         this.specialty = specialty;
         this.hospital = hospital;
         this.city = city;
         this.picName = picName;
+        this.slmcNumber = slmcNumber;
     }
 
-    public Counselor(String name, String description, String specialty, String hospital, String city, String picName,
+    public Counselor(String name, String description, String specialty, String hospital, String city, String picName, String slmcNumber,
                      LoginCredentials loginCredentials) {
         this.name = name;
         this.description = description;
@@ -51,10 +54,11 @@ public class Counselor extends SuperEntity {
         this.hospital = hospital;
         this.city = city;
         this.picName = picName;
+        this.slmcNumber = slmcNumber;
         this.loginCredentials = loginCredentials;
     }
 
-    public Counselor(String name, String description, String specialty, String hospital, String city, String picName,
+    public Counselor(String name, String description, String specialty, String hospital, String city, String picName, String slmcNumber,
                      String email, String username, String password) {
         this.name = name;
         this.description = description;
@@ -62,6 +66,7 @@ public class Counselor extends SuperEntity {
         this.hospital = hospital;
         this.city = city;
         this.picName = picName;
+        this.slmcNumber = slmcNumber;
         this.loginCredentials = new LoginCredentials(username,password,email);
     }
 
