@@ -1,7 +1,13 @@
 package lk.ac.cmb.ucsc.euphoria.service;
 
+import lk.ac.cmb.ucsc.euphoria.constants.AppointmentStatus;
+import lk.ac.cmb.ucsc.euphoria.dto.CommentDTO;
+import lk.ac.cmb.ucsc.euphoria.dto.CounselorRequestDTO;
+import lk.ac.cmb.ucsc.euphoria.dto.PasswordChangeDTO;
+import lk.ac.cmb.ucsc.euphoria.dto.PostDTO;
 import lk.ac.cmb.ucsc.euphoria.dto.*;
 import lk.ac.cmb.ucsc.euphoria.model.*;
+import lk.ac.cmb.ucsc.euphoria.model.counselor.Counselor;
 import lk.ac.cmb.ucsc.euphoria.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -26,7 +33,7 @@ public class UserService {
     @Autowired
     private CounselorRepository counselorRepository;
     @Autowired
-    private CounselorRequestRepository counselorRequestRepository;
+    private AppointmentRequestRepository appointmentRequestRepository;
     @Autowired
     private PostRepository postRepository;
     @Autowired
@@ -149,18 +156,19 @@ public class UserService {
     public ResponseEntity<Boolean> requestCounselor(@Valid CounselorRequestDTO counselorRequest) {
 
         Counselor counselor=new Counselor();
-        counselor.setCounselor_id(counselorRequest.getCounselor_id());
+        counselor.setId(counselorRequest.getCounselor_id());
 
         User user=new User();
         user.setUid(counselorRequest.getUser_id());
 
-        CounselorRequestIdentity id=new CounselorRequestIdentity();
-        id.setCounselor_id(counselor);
-        id.setUser_id(user);
+        AppointmentRequestPK id=new AppointmentRequestPK();
+        id.setCounselor(counselor);
+        id.setUser(user);
+        id.setCreatedAt(LocalDateTime.now());
 
-        CounselorRequest new_request=new CounselorRequest(id,counselorRequest.getRequest_description());
-        new_request.setAppointmentStatus("pending");
-        CounselorRequest temp = counselorRequestRepository.save(new_request);
+        AppointmentRequest new_request=new AppointmentRequest(id,counselorRequest.getRequest_description());
+        new_request.setStatus(AppointmentStatus.PENDING);
+        AppointmentRequest temp = appointmentRequestRepository.save(new_request);
         if(temp!=null){
             return ResponseEntity.ok(true);
         }else{
@@ -260,8 +268,8 @@ public class UserService {
         return null;
     }
 
-    public List<CounselorRequest> getRequests() {
-        return (List<CounselorRequest>) counselorRequestRepository.findAll();
+    public List<AppointmentRequest> getRequests() {
+        return (List<AppointmentRequest>) appointmentRequestRepository.findAll();
     }
 
     public List<Rated> getRated() {

@@ -3,6 +3,7 @@ package lk.ac.cmb.ucsc.euphoria.controller;
 import lk.ac.cmb.ucsc.euphoria.dto.*;
 import lk.ac.cmb.ucsc.euphoria.model.*;
 import lk.ac.cmb.ucsc.euphoria.service.EmailService;
+import lk.ac.cmb.ucsc.euphoria.model.counselor.Counselor;
 import lk.ac.cmb.ucsc.euphoria.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -175,7 +176,7 @@ public class UserController {
     }
     @GetMapping(path = "/getrequests", produces = "application/json")
     @CrossOrigin
-    public List<CounselorRequest> getRequests() {
+    public List<AppointmentRequest> getRequests() {
         System.out.println("Get counselors");
         return userService.getRequests();
     }
