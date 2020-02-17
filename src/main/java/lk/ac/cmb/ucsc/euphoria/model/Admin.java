@@ -39,7 +39,7 @@ public class Admin {
         this.firstName = firstName;
         this.lastName = lastName;
         this.adminPassword = Password;
-        this.activeStatus = Status;
+        this.activeStatus = "Active";
     }
 
     public long getAdminID() {
