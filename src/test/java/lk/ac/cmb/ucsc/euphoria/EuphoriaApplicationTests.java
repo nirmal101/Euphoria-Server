@@ -25,7 +25,7 @@ class EuphoriaApplicationTests {
     @Test
     void contextLoads() {
         seedCounselorTestValues();
-        seedUserTestValues();
+//        seedUserTestValues();
     }
 
     void seedCounselorTestValues() {
@@ -37,12 +37,12 @@ class EuphoriaApplicationTests {
         LOGGER.debug("Successfully saved Test Counselor");
     }
 
-    void seedUserTestValues() {
-        User user = new User("M", "TestUserFN", "TestUserLN", "testUser@euphoria.io",
-                "password", 0112222222, "2020-02-17", "2020000000000",
-                "Colombo", "Colombo", "formal");
-        userService.formalSignUp(user);
-        LOGGER.debug("Successfully saved Test User");
-    }
+//    void seedUserTestValues() {
+//        User user = new User("M", "TestUserFN", "TestUserLN", "testUser@euphoria.io",
+//                "password", 0112222222, "2020-02-17", "2020000000000",
+//                "Colombo", "Colombo", "formal");
+//        userService.formalSignUp(user);
+//        LOGGER.debug("Successfully saved Test User");
+//    }
 
 }

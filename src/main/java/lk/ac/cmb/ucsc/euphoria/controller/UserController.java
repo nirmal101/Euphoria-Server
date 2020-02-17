@@ -1,9 +1,6 @@
 package lk.ac.cmb.ucsc.euphoria.controller;
 
-import lk.ac.cmb.ucsc.euphoria.dto.CommentDTO;
-import lk.ac.cmb.ucsc.euphoria.dto.CounselorRequestDTO;
-import lk.ac.cmb.ucsc.euphoria.dto.PasswordChangeDTO;
-import lk.ac.cmb.ucsc.euphoria.dto.PostDTO;
+import lk.ac.cmb.ucsc.euphoria.dto.*;
 import lk.ac.cmb.ucsc.euphoria.model.*;
 import lk.ac.cmb.ucsc.euphoria.service.EmailService;
 import lk.ac.cmb.ucsc.euphoria.model.counselor.Counselor;
@@ -132,7 +129,8 @@ public class UserController {
     public Post addCommentToPost(@RequestBody @Valid @NonNull CommentDTO comment) {
 
         System.out.println("came to the server");
-
+        System.out.println(comment.getComment_description());
+        System.out.println(comment.getPost_id());
         try{
             return userService.addCommentToPost(comment);
 
@@ -182,6 +180,33 @@ public class UserController {
     public List<AppointmentRequest> getRequests() {
         System.out.println("Get counselors");
         return userService.getRequests();
+    }
+
+    @GetMapping(path = "/getrated", produces = "application/json")
+    @CrossOrigin
+    public List<Rated> getRated() {
+        System.out.println("Get rated");
+        return userService.getRated();
+    }
+    @PostMapping(path = "/ratecounselor", consumes = "application/json", produces = "application/json")
+    @CrossOrigin
+    public Counselor rateCounselor(@RequestBody RateDTO rate) {
+        System.out.println("rate");
+        return userService.rateCounselor(rate);
+
+    }
+
+    @GetMapping(path = "/getpayment", produces = "application/json")
+    @CrossOrigin
+    public List<Payment> getPayment() {
+        System.out.println("Get rated");
+        return userService.getPayment();
+    }
+    @PostMapping(path = "/updatepayment",consumes = "application/json", produces = "application/json")
+    @CrossOrigin
+    public Payment updatePayment(@RequestBody RateDTO payment) {
+        System.out.println("Get rated");
+        return userService.updatePayment(payment);
     }
 
 

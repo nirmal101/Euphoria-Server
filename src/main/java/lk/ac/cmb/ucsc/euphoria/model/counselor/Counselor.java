@@ -19,45 +19,63 @@ public class Counselor extends SuperEntity {
 
     private String city;
 
-    private String photoUrl;
+    private String picName;
 
     @OneToOne(cascade = CascadeType.ALL)
     private LoginCredentials loginCredentials;
 
+    private float rating;
+    private int ratedTimes;
+
     public Counselor() {
     }
 
-    public Counselor(String name, String description, String specialty, String hospital, String city, String photoUrl) {
+    public Counselor(String name, String description, String specialty, String hospital, String city, String picName) {
         this.name = name;
         this.description = description;
         this.specialty = specialty;
         this.hospital = hospital;
         this.city = city;
-        this.photoUrl = photoUrl;
+        this.picName = picName;
     }
 
-    public Counselor(String name, String description, String specialty, String hospital, String city, String photoUrl,
+    public Counselor(String name, String description, String specialty, String hospital, String city, String picName,
                      LoginCredentials loginCredentials) {
         this.name = name;
         this.description = description;
         this.specialty = specialty;
         this.hospital = hospital;
         this.city = city;
-        this.photoUrl = photoUrl;
+        this.picName = picName;
         this.loginCredentials = loginCredentials;
     }
 
-    public Counselor(String name, String description, String specialty, String hospital, String city, String photoUrl,
+    public Counselor(String name, String description, String specialty, String hospital, String city, String picName,
                      String email, String username, String password) {
         this.name = name;
         this.description = description;
         this.specialty = specialty;
         this.hospital = hospital;
         this.city = city;
-        this.photoUrl = photoUrl;
+        this.picName = picName;
         this.loginCredentials = new LoginCredentials(username,password,email);
     }
 
+    public float getRating() {
+        return rating;
+    }
+
+    public void setRating(float rating) {
+        this.rating = rating;
+    }
+
+    public int getRatedTimes() {
+        return ratedTimes;
+    }
+
+    public void setRatedTimes(int ratedTimes) {
+        this.ratedTimes = ratedTimes;
+    }
 
     public Counselor(Long id) {
         super(id);
@@ -103,12 +121,12 @@ public class Counselor extends SuperEntity {
         this.city = city;
     }
 
-    public String getPhotoUrl() {
-        return photoUrl;
+    public String getPicName() {
+        return picName;
     }
 
-    public void setPhotoUrl(String photoUrl) {
-        this.photoUrl = photoUrl;
+    public void setPicName(String photoUrl) {
+        this.picName = photoUrl;
     }
 
     public LoginCredentials getLoginCredentials() {
