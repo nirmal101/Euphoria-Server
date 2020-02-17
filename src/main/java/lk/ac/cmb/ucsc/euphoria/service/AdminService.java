@@ -84,15 +84,22 @@ public class AdminService {
         return Long.toString(count);
     }
 
+    public void deleteUser(@PathVariable long id){
+        userRepository.deleteUser(id);
+    }
+
     //***********************************************Counselor Repository***********************************************
     public List<Counselor> getCounselors() {
-        Iterable<Counselor> all = counselorRepository.findAll();
-        List<Counselor> counselorList = new ArrayList<Counselor>();
-        all.forEach(counselorList::add);
-        return counselorList;
+        return (List<Counselor>) counselorRepository.findAll();
+
+
     }
 
     public String getRegisteredCounselors(){
         return Long.toString(counselorRepository.count());
+    }
+
+    public Counselor activateCounselor(long id) {
+        Counselor coun=counselorRepository.findById(id).get();
     }
 }
