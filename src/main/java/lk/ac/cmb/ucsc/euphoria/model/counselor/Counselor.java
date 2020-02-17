@@ -146,6 +146,14 @@ public class Counselor extends SuperEntity {
         this.picName = photoUrl;
     }
 
+    public String getSlmcNumber() {
+        return slmcNumber;
+    }
+
+    public void setSlmcNumber(String slmcNumber) {
+        this.slmcNumber = slmcNumber;
+    }
+
     public LoginCredentials getLoginCredentials() {
         return loginCredentials;
     }
